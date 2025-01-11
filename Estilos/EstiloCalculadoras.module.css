@@ -1,0 +1,99 @@
+/* General Container */
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #efe238;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(208, 138, 138, 0.86);
+  font-family: 'Arial', sans-serif;
+  color: #333333;
+}
+
+/* Title Styling */
+.labelA {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #2c3e50;
+}
+
+/* Input Row Styling */
+.inputContainer {
+  margin-bottom: 1.5rem;
+}
+
+.row {
+  margin-bottom: 1rem;
+}
+
+.label {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #34495e;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 1rem;
+  background-color: #f4f6f9; /* Suave color de fondo */
+  border: 2px solid #7f8c8d; /* Bordes más contrastados */
+  border-radius: 8px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+  outline: none;
+}
+
+/* Button Styling */
+.touchableButton {
+  
+  width: 100%;
+  padding: 12px;
+  margin-top: 30px; /* Más espacio hacia abajo */
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  background: #2980b9;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.touchableButton:hover {
+  background: #1f5f8a;
+}
+
+.touchableButton:active {
+  background: #145374;
+}
+
+.buttonText {
+  display: inline-block;
+  margin: 0;
+}
+.touchableButtonV {
+  padding: 12px 24px;
+  margin: 20px 0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease;
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  text-align: center;
+  background-color: #2ecc71;
+  color: white;
+  
+}

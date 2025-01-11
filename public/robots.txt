@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://simuladorfinanciero.com/sitemap.xml
