@@ -14,10 +14,13 @@ const CalculadoraRentaInmediata: React.FC = () => {
     if (!capital || !tasaInteres || !periodo) {
       alert('Por favor, completa todos los campos.');
     } else {
-      router.push({
-        pathname: 'resultados/ResultadoInmediatas',
-        query: { capital, tasaInteres, periodo },
-      });
+      // Retraso de 500ms antes de realizar la redirección
+      setTimeout(() => {
+        router.push({
+          pathname: 'resultados/ResultadoInmediatas',
+          query: { capital, tasaInteres, periodo },
+        });
+      }, 500); // Retraso de 500 milisegundos
     }
   };
 
