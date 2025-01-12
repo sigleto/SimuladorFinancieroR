@@ -1,13 +1,16 @@
 /* General Container */
 .container {
-  max-width: 600px;
-  margin: 0 auto;
+ 
+  max-width: 500px;
+  margin-top: 100px;
+  margin-left: 35%;
   padding: 20px;
   background: #efe238;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(208, 138, 138, 0.86);
   font-family: 'Arial', sans-serif;
   color: #333333;
+  
 }
 
 /* Title Styling */
@@ -36,7 +39,7 @@
 }
 
 .input {
-  width: 100%;
+  width: 40%;
   padding: 10px 15px;
   font-size: 1rem;
   background-color: #f4f6f9; /* Suave color de fondo */
@@ -44,6 +47,7 @@
   border-radius: 8px;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: border-color 0.2s, box-shadow 0.2s;
+  text-align: center;
 }
 
 .input:focus {
