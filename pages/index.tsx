@@ -1,9 +1,8 @@
-// pages/index.tsx
 import React from 'react';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { FaChartLine, FaCalculator, FaExchangeAlt, FaPiggyBank, FaChartBar, FaUserClock } from 'react-icons/fa';
+import { FaChartLine, FaCalculator, FaExchangeAlt, FaPiggyBank, FaChartBar, FaUserClock, FaHourglassStart } from 'react-icons/fa';
 import styles from '../Estilos/index.module.css';
 import './Simuladores/CalculadoraAhorros'
 
@@ -24,6 +23,7 @@ const Home: React.FC = () => {
     { icon: <FaExchangeAlt />, text: "Conversor de Divisas", path: "/Simuladores/ConversorDivisas" },
     { icon: <FaChartBar />, text: "Cotizador de Acciones NY", path: "/Simuladores/RentabilidadAcciones" },
     { icon: <FaUserClock />, text: "Simulador de Jubilación", path: "/Simuladores/SimuladorJubilacion" },
+    { icon: <FaHourglassStart />, text: "Simulador de Rentas Inmediatas", path: "/Simuladores/RentasInmediatas" }
   ];
 
   const benefits = [

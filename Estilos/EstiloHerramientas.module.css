@@ -5,7 +5,7 @@
   height: 100vh; /* Ocupa la altura total de la pantalla */
   padding: 0; /* Elimina padding adicional si no es necesario */
   margin: 0; /* Elimina cualquier margen adicional */
-  background-color: rgb(105, 105, 189);
+  background-color: rgb(205, 191, 41);
   justify-content: center; /* Centra el contenido verticalmente */
   align-items: center; /* Centra el contenido horizontalmente */
   box-sizing: border-box; /* Incluye padding y border en las dimensiones */
@@ -13,7 +13,7 @@
 
 .herramientasGrid {
   width: 100%; /* Asegura que el grid ocupe todo el ancho disponible */
-  max-width: 1200px; /* Puedes establecer un valor máximo si deseas limitar el ancho */
+  /* Puedes establecer un valor máximo si deseas limitar el ancho */
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2.5rem;
@@ -22,7 +22,7 @@
 
 .herramientasTitulo {
   font-size: 2.5rem; /* Título más grande */
-  color: #dae4ee;
+  color: #465a6e;
   text-align: center;
   margin-bottom: 3rem;
   font-weight: 600;
@@ -36,7 +36,7 @@
   align-items: center;
   justify-content: center;
   padding: 2.5rem; /* Padding más grande */
-  height: 250px; /* Altura fija para todos los contenedores */
+  height: 200px; /* Altura fija para todos los contenedores */
   background-color: #f8f9fa;
   border: 2px solid #e9ecef;
   border-radius: 15px; /* Bordes más redondeados */

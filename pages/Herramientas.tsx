@@ -15,6 +15,7 @@ const Herramientas: React.FC = () => {
     { nombre: 'Conversor de Divisas', ruta: '/Simuladores/ConversorDivisas', icono: '💱' },
     { nombre: 'Cotización de Acciones NY', ruta: '/Simuladores/RentabilidadAcciones', icono: '📊' },
     { nombre: 'Rendimiento para la Jubilación', ruta: '/Simuladores/SimuladorJubilacion', icono: '👴' },
+    { nombre: 'Simulador de Rentas Inmediatas', ruta: '/Simuladores/RentasInmediatas', icono: '🕒' }
   ];
 
   return (
