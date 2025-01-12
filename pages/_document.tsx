@@ -10,6 +10,7 @@ export default function Document() {
         <meta property="og:description" content="Optimiza tus finanzas con nuestros simuladores avanzados." />
         <meta property="og:image" content="/logo.png" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png"></link>
       </Head>
       <body>
         <Main />
