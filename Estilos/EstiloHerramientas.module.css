@@ -2,18 +2,18 @@
 .herramientasContainer {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Ocupa la altura total de la pantalla */
-  padding: 0; /* Elimina padding adicional si no es necesario */
-  margin: 0; /* Elimina cualquier margen adicional */
-  background-color: rgb(205, 191, 41);
-  justify-content: center; /* Centra el contenido verticalmente */
-  align-items: center; /* Centra el contenido horizontalmente */
-  box-sizing: border-box; /* Incluye padding y border en las dimensiones */
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px 0;
+  margin: 0;
+  background-color: #d5e3f7;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
 }
-
 .herramientasGrid {
   width: 100%; /* Asegura que el grid ocupe todo el ancho disponible */
-  /* Puedes establecer un valor máximo si deseas limitar el ancho */
+  max-width: 1200px;/* Puedes establecer un valor máximo si deseas limitar el ancho */
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2.5rem;
