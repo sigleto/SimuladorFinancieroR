@@ -8,7 +8,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+        <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
       <Component {...pageProps} />
