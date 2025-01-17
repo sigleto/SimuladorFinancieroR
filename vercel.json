@@ -1,18 +1,13 @@
 {
     "redirects": [
       {
-        "source": "http://simuladorfinanciero.com/",
+        "source": "/",
         "destination": "https://simuladorfinanciero.com/",
         "permanent": true
       },
       {
-        "source": "http://www.simuladorfinanciero.com/",
-        "destination": "https://simuladorfinanciero.com/",
-        "permanent": true
-      },
-      {
-        "source": "https://www.simuladorfinanciero.com/",
-        "destination": "https://simuladorfinanciero.com/",
+        "source": "/:path*",
+        "destination": "https://simuladorfinanciero.com/:path*",
         "permanent": true
       }
     ]
