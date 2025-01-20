@@ -82,6 +82,12 @@
   display: inline-block;
   margin: 0;
 }
+.touchableButtonV {
+  background-color: #2ecc71;
+  color: rgb(62, 55, 55);
+}
+
+
 
 @media (min-width: 768px) {
   .pickerContainer {

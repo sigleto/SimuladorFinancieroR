@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from 'next/router';
 import { Line } from 'react-chartjs-2';
 
+
 import { 
   Chart as ChartJS, 
   CategoryScale, 
@@ -12,7 +13,7 @@ import {
   Tooltip, 
   Legend 
 } from 'chart.js';
-import styles from '../../../Estilos/EstiloCalculadoras.module.css';
+import styles from '../../../Estilos/EstiloResultados.module.css';
 
 // Registra los componentes necesarios de chart.js
 ChartJS.register(
