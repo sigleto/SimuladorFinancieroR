@@ -4,6 +4,7 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import styles from '../../../Estilos/EstiloResultados.module.css';
 
+// Registro de componentes de Chart.js
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 interface RouteParams {
@@ -14,34 +15,32 @@ interface RouteParams {
 
 const ResultadosRentaInmediata: React.FC = () => {
   const router = useRouter();
-  const { capital, tasaInteres, periodo } = router.query as unknown as RouteParams;
+  const { capital = '0', tasaInteres = '0', periodo = '0' } = router.query as unknown as RouteParams;
 
-  const [rentaMensual, setRentaMensual] = useState<number | null>(null);
+  const [rentaMensual, setRentaMensual] = useState<string>('');
   const [graficoData, setGraficoData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true); // Estado de carga
 
-  const calcularRentaMensual = () => {
-    const capitalFloat = parseFloat(capital || '0');
-    const tasaInteresFloat = parseFloat(tasaInteres || '0') / 100;
-    const periodoFloat = parseFloat(periodo || '0');
-
-    // Fórmula de renta inmediata mensual
-    const rentaMensualCalculada = (capitalFloat * tasaInteresFloat) / (1 - Math.pow(1 + tasaInteresFloat, -periodoFloat));
-
-    return isNaN(rentaMensualCalculada) ? 0 : rentaMensualCalculada;
+  const calcularRentaMensual = (capital: number, tasaInteres: number, periodo: number): number => {
+    return (capital * tasaInteres) / (1 - Math.pow(1 + tasaInteres, -periodo));
   };
 
   useEffect(() => {
-    if (capital && tasaInteres && periodo) {
-      const renta = calcularRentaMensual();
-      setRentaMensual(renta);
+    const capitalFloat = parseFloat(capital);
+    const tasaInteresFloat = parseFloat(tasaInteres) / 100 / 12;
+    const periodoFloat = parseFloat(periodo);
 
-      const labels = Array.from({ length: periodo ? parseInt(periodo) : 0 }, (_, i) => (i + 1).toString());
+    if (!isNaN(capitalFloat) && !isNaN(tasaInteresFloat) && !isNaN(periodoFloat)) {
+      const renta = calcularRentaMensual(capitalFloat, tasaInteresFloat, periodoFloat);
+      setRentaMensual(renta.toFixed(2));
+
+      const labels = Array.from({ length: periodoFloat }, (_, i) => (i + 1).toString());
       const data = {
         labels,
         datasets: [
           {
             label: 'Renta Mensual',
-            data: labels.map(() => renta),
+            data: labels.map(() => renta.toFixed(2)),
             backgroundColor: 'rgba(153, 102, 255, 0.2)',
             borderColor: 'rgba(153, 102, 255, 1)',
             borderWidth: 2,
@@ -50,6 +49,8 @@ const ResultadosRentaInmediata: React.FC = () => {
       };
       setGraficoData(data);
     }
+
+    setIsLoading(false); // Se termina de cargar
   }, [capital, tasaInteres, periodo]);
 
   const volver = () => {
@@ -59,12 +60,16 @@ const ResultadosRentaInmediata: React.FC = () => {
   return (
     <div className={styles.container}>
       <h2 className={styles.enunciado}>Datos Introducidos</h2>
-      <p className={styles.labelText}>Capital Inicial: <span className={styles.resultText}>{capital}</span></p>
+      <p className={styles.labelText}>Capital Inicial: <span className={styles.resultText}>{capital} €</span></p>
       <p className={styles.labelText}>Tasa de Interés: <span className={styles.resultText}>{tasaInteres} %</span></p>
       <p className={styles.labelText}>Período: <span className={styles.resultText}>{periodo} meses</span></p>
 
       <h2 className={styles.enunciado}>Resultado</h2>
-      <p className={styles.labelText}>Renta Mensual: <span className={styles.resultText}>{rentaMensual?.toFixed(2)}</span></p>
+      {isLoading ? (
+        <p>Cargando...</p> // Mensaje de carga
+      ) : (
+        <p className={styles.labelText}>Renta Mensual: <span className={styles.resultText}>{rentaMensual} €</span></p>
+      )}
 
       {graficoData ? (
         <div style={{ height: '300px', width: '100%' }}>
@@ -72,7 +77,7 @@ const ResultadosRentaInmediata: React.FC = () => {
           <p className={styles.labelXAxis}>Meses</p>
         </div>
       ) : (
-        <p>No hay datos disponibles para mostrar el gráfico.</p>
+        !isLoading && <p>No hay datos disponibles para mostrar el gráfico.</p> // Mostrar mensaje si no hay datos
       )}
 
       <button onClick={volver} className={`${styles.touchableButtonV} ${styles.marginTopButton}`}>

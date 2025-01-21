@@ -1,58 +1,84 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router'; // Usamos useRouter de Next.js
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import styles from '../../Estilos/EstiloCalculadoras.module.css';
 
-const CalculadoraInversiones = () => {
-  const [principal, setPrincipal] = useState('');
-  const [rate, setRate] = useState('');
-  const [time, setTime] = useState('');
-  const [contributions, setContributions] = useState('0');
-  const [tipoInteres, setTipoInteres] = useState('anual');
-  const [unidadPeriodo, setUnidadPeriodo] = useState('años');
-  
-  // Usamos useRouter para la navegación
+const CalculadoraInversiones: React.FC = () => {
+  const [formData, setFormData] = useState({
+    principal: '',
+    rate: '',
+    time: '',
+    contributions: '0',
+    tipoInteres: 'anual',
+    unidadPeriodo: 'años'
+  });
   const router = useRouter();
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
   const calcularCuota = () => {
+    const { principal, rate, time, contributions } = formData;
     if (!principal || !rate || !time || !contributions) {
       alert('Por favor, completa todos los campos.');
     } else {
-      // Usamos router.push para la navegación con parámetros
       router.push({
-        pathname: 'resultados/ResultadoInversiones', // Ruta del resultado
-        query: { principal, rate, time, contributions, tipoInteres, unidadPeriodo }
+        pathname: 'resultados/ResultadoInversiones',
+        query: { ...formData },
       });
     }
   };
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.labelA}>Calculadora de Inversiones</h2>
+      <h1 className={styles.title}>Calculadora de Inversiones</h1>
+      <p className={styles.description}>
+        Utiliza esta herramienta para calcular el crecimiento potencial de tus inversiones a lo largo del tiempo.
+      </p>
 
-      <div className={styles.inputContainer}>
-        <div className={styles.row}>
-          <h3 className={styles.label}>Principal</h3>
+      <form className={styles.form}>
+        <div className={styles.formGroup}>
+          <label htmlFor="principal" className={styles.label}>Principal</label>
+          <p className={styles.inputDescription}>Ingresa la cantidad inicial que planeas invertir.</p>
           <input
-            className={styles.input}
+            id="principal"
+            name="principal"
             type="number"
-            value={principal}
-            onChange={(e) => setPrincipal(e.target.value)}
+            value={formData.principal}
+            onChange={handleInputChange}
+            placeholder="Ej: 10000"
+            className={styles.input}
           />
         </div>
 
-        <div className={styles.row}>
-          <h3 className={styles.label}>Interés (%)</h3>
-          <div className={styles.pickerContainer}>
+        <div className={styles.formRow}>
+          <div className={styles.formGroup}>
+            <label htmlFor="rate" className={styles.label}>Interés (%)</label>
+            <p className={styles.inputDescription}>Especifica la tasa de interés esperada.</p>
             <input
-              className={styles.input}
+              id="rate"
+              name="rate"
               type="number"
-              value={rate}
-              onChange={(e) => setRate(e.target.value)}
+              value={formData.rate}
+              onChange={handleInputChange}
+              placeholder="Ej: 5"
+              className={styles.input}
             />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="tipoInteres" className={styles.label}>Tipo de interés</label>
+            <p className={styles.inputDescription}>Selecciona si el interés es anual o mensual.</p>
             <select
-              className={styles.picker}
-              value={tipoInteres}
-              onChange={(e) => setTipoInteres(e.target.value)}
+              id="tipoInteres"
+              name="tipoInteres"
+              value={formData.tipoInteres}
+              onChange={handleInputChange}
+              className={styles.select}
             >
               <option value="anual">Anual</option>
               <option value="mensual">Mensual</option>
@@ -60,19 +86,30 @@ const CalculadoraInversiones = () => {
           </div>
         </div>
 
-        <div className={styles.row}>
-          <h3 className={styles.label}>Duración</h3>
-          <div className={styles.pickerContainer}>
+        <div className={styles.formRow}>
+          <div className={styles.formGroup}>
+            <label htmlFor="time" className={styles.label}>Duración</label>
+            <p className={styles.inputDescription}>Indica el período de tiempo de la inversión.</p>
             <input
-              className={styles.input}
+              id="time"
+              name="time"
               type="number"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
+              value={formData.time}
+              onChange={handleInputChange}
+              placeholder="Ej: 5"
+              className={styles.input}
             />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="unidadPeriodo" className={styles.label}>Unidad de tiempo</label>
+            <p className={styles.inputDescription}>Elige la unidad de tiempo para la duración.</p>
             <select
-              className={styles.picker}
-              value={unidadPeriodo}
-              onChange={(e) => setUnidadPeriodo(e.target.value)}
+              id="unidadPeriodo"
+              name="unidadPeriodo"
+              value={formData.unidadPeriodo}
+              onChange={handleInputChange}
+              className={styles.select}
             >
               <option value="años">Años</option>
               <option value="meses">Meses</option>
@@ -80,20 +117,28 @@ const CalculadoraInversiones = () => {
           </div>
         </div>
 
-        <div className={styles.row}>
-          <h3 className={styles.label}>Contribuciones Anuales</h3>
+        <div className={styles.formGroup}>
+          <label htmlFor="contributions" className={styles.label}>Contribuciones Anuales</label>
+          <p className={styles.inputDescription}>Ingresa la cantidad que planeas aportar anualmente.</p>
           <input
-            className={styles.input}
+            id="contributions"
+            name="contributions"
             type="number"
-            value={contributions}
-            onChange={(e) => setContributions(e.target.value)}
+            value={formData.contributions}
+            onChange={handleInputChange}
+            placeholder="Ej: 1000"
+            className={styles.input}
           />
         </div>
-      </div>
 
-      <button className={styles.touchableButton} onClick={calcularCuota}>
-        <span className={styles.buttonText}>Calcular</span>
-      </button>
+        <button type="button" className={styles.button} onClick={calcularCuota}>
+          Calcular Inversión
+        </button>
+      </form>
+
+      <p className={styles.disclaimer}>
+        Nota: Esta calculadora es para fines informativos. Los resultados son estimaciones y pueden variar según las condiciones reales del mercado.
+      </p>
     </div>
   );
 };

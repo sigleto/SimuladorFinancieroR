@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import styles from '../../../Estilos/EstiloResultados.module.css';  // Importa los estilos CSS en módulos
+import styles from '../../../Estilos/EstiloResultados.module.css';
 
 interface TablaData {
   periodo: number;
@@ -19,30 +19,31 @@ const ResultadosPrestamo: React.FC = () => {
   const [totalPagado, setTotalPagado] = useState<string>('');
 
   useEffect(() => {
-    const calculandoFunc = () => {
+    const calcularResultados = () => {
       const capitalFloat = parseFloat(capital as string);
       const tasaInteresFloat = parseFloat(tasaInteres as string) / 100 / 12;
       const periodoFloat = parseFloat(periodo as string);
 
-      const cuotaCalculada =
-        (capitalFloat * tasaInteresFloat) /
-        (1 - Math.pow(1 + tasaInteresFloat, -periodoFloat));
+      if (capitalFloat && tasaInteresFloat && periodoFloat) {
+        const cuotaCalculada =
+          (capitalFloat * tasaInteresFloat) /
+          (1 - Math.pow(1 + tasaInteresFloat, -periodoFloat));
 
-      setCuota(cuotaCalculada.toFixed(2));
+        setCuota(cuotaCalculada.toFixed(2));
 
-      const totalInteresesPagados = cuotaCalculada * periodoFloat - capitalFloat;
-      const totalPagadoCalculado = cuotaCalculada * periodoFloat;
+        const totalInteresesPagados =
+          cuotaCalculada * periodoFloat - capitalFloat;
+        const totalPagadoCalculado = cuotaCalculada * periodoFloat;
 
-      setTotalIntereses(totalInteresesPagados.toFixed(2));
-      setTotalPagado(totalPagadoCalculado.toFixed(2));
+        setTotalIntereses(totalInteresesPagados.toFixed(2));
+        setTotalPagado(totalPagadoCalculado.toFixed(2));
+      }
     };
 
-    if (capital && tasaInteres && periodo) {
-      calculandoFunc();
-    }
+    calcularResultados();
   }, [capital, tasaInteres, periodo]);
 
-  const AccesoTabla = () => {
+  const consultarTabla = () => {
     const data: TablaData[] = [];
     const capitalFloat = parseFloat(capital as string);
     const tasaInteresFloat = parseFloat(tasaInteres as string) / 100 / 12;
@@ -69,27 +70,45 @@ const ResultadosPrestamo: React.FC = () => {
       saldoPendiente -= amortizacion;
     }
 
-    router.push({ pathname: 'TablaPrestamo', query: { data: JSON.stringify(data) } });
+    router.push({
+      pathname: 'TablaPrestamo',
+      query: { data: JSON.stringify(data) },
+    });
   };
 
   const volver = () => router.push('/Herramientas');
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.enunciado}>Datos introducidos</h2>
-      <p className={styles.labelText}>Capital: <span className={styles.resultText}>{capital} €</span></p>
-      <p className={styles.labelText}>Tasa de Interés: <span className={styles.resultText}>{tasaInteres}%</span></p>
-      <p className={styles.labelText}>Período: <span className={styles.resultText}>{periodo} meses</span></p>
+      <h2 className={styles.enunciado}>Resultados del Préstamo</h2>
 
-      <h2 className={styles.enunciado}>Resultados</h2>
-      <p className={styles.labelText}>Cuota Mensual: <span className={styles.resultTextr}>{parseFloat(cuota).toFixed(2)} €</span></p>
-      <p className={styles.labelText}>Total Pagado de intereses: <span className={styles.resultText}>{parseFloat(totalIntereses).toFixed(2)} €</span></p>
-      <p className={styles.labelText}>Total Pagado al final: <span className={styles.resultText}>{parseFloat(totalPagado).toFixed(2)} €</span></p>
+      <h2 className={styles.enunciado}>Datos Introducidos</h2>
+      <p className={styles.labelText}>Capital inicial: <span className={styles.resultText}>{capital} €</span></p>
+      <p className={styles.labelText}>Tasa de interés anual: <span className={styles.resultText}>{tasaInteres}%</span></p>
+      <p className={styles.labelText}>Período del préstamo: <span className={styles.resultText}>{periodo} meses</span></p>
 
-      <div className={styles.buttonContainer}>
-        <button onClick={AccesoTabla} className={styles.touchableButton}>Consultar Tabla</button>
-        <button onClick={volver} className={styles.touchableButtonV}>Volver</button>
-      </div>
+      <h2 className={styles.enunciado}>Resultados Estimados</h2>
+      <p className={styles.labelText}>Cuota mensual aproximada: <span className={styles.resultText}>{cuota} €</span></p>
+      <p className={styles.labelText}>Total de intereses pagados: <span className={styles.resultText}>{totalIntereses} €</span></p>
+      <p className={styles.labelText}>Monto total pagado: <span className={styles.resultText}>{totalPagado} €</span></p>
+      <p className={styles.noteText}>
+        Nota: Los resultados son aproximados y pueden variar según las
+        condiciones específicas del préstamo acordado con una entidad
+        financiera.
+      </p>
+
+      <button
+        onClick={consultarTabla}
+        className={`${styles.touchableButtonV} ${styles.marginTopButton}`}
+      >
+        Consultar tabla de amortización
+      </button>
+      <button
+        onClick={volver}
+        className={`${styles.touchableButtonV} ${styles.marginTopButton}`}
+      >
+        Volver
+      </button>
     </div>
   );
 };

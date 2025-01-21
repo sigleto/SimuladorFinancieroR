@@ -1,79 +1,87 @@
-/* Contenedor principal */
 .container {
   max-width: 800px;
-  margin: 40px auto;
+  width: 90%;   
+  margin: 0 auto;
   padding: 20px;
-  background-color: #f5f9b9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px #20269db3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilo para los encabezados */
 .enunciado {
   color: #2c3e50;
+  font-size: 24px;
+  margin-bottom: 20px;
   border-bottom: 2px solid #3498db;
   padding-bottom: 10px;
-  margin-top: 30px;
-  font-size: 1.5em;
-  text-align: center;
 }
 
-/* Estilos para las etiquetas */
 .labelText {
-  font-weight: bold;
-  margin-bottom: 5px;
-  font-size: 1.1em;
+  font-size: 16px;
+  color: #34495e;
+  margin-bottom: 10px;
 }
 
-/* Estilo para los resultados */
 .resultText {
-  color: #2980b9;
-  font-size: 1.2em;
-  font-weight: normal;
-}
-
-.resultTextr {
-  color: #e74c3c;
-  font-size: 1.3em;
   font-weight: bold;
+  color: #2980b9;
 }
 
-/* Estilos para el gráfico */
-.graphContainer {
-  width: 100%;
-  height: 300px;
-  margin-top: 30px;
-}
-
-/* Estilos para el botón */
-.touchableButton, .touchableButtonV {
-  padding: 12px 24px;
-  margin: 20px 0;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1.1em;
-  transition: background-color 0.3s ease;
-  display: block;
-  width: 100%;
-  max-width: 200px;
-  text-align: center;
-}
-
-/* Colores y estilos para el botón */
-.touchableButton {
-  background-color: #3498db;
-  color: white;
+.noteText {
+  font-size: 14px;
+  color: #7f8c8d;
+  font-style: italic;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .touchableButtonV {
-  background-color: #2ecc71;
+  background-color: #3498db;
   color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 50px;
 }
 
-.touchableButton:hover, .touchableButtonV:hover {
-  opacity: 0.9;
+.touchableButtonV:hover {
+  background-color: #2980b9;
+}
+
+.marginTopButton {
+  margin-top: 30px;
+}
+
+.labelXAxis {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 15px;
+  }
+
+  .enunciado {
+    font-size: 20px;
+  }
+
+  .labelText {
+    font-size: 14px;
+  }
+
+  .noteText {
+    font-size: 12px;
+  }
+
+  .touchableButtonV {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
 }

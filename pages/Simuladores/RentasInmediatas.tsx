@@ -2,25 +2,34 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../../Estilos/EstiloCalculadoras.module.css';
 
-// Simulador de Renta Inmediata
 const CalculadoraRentaInmediata: React.FC = () => {
-  const [capital, setCapital] = useState<string>('');
-  const [tasaInteres, setTasaInteres] = useState<string>('');
-  const [periodo, setPeriodo] = useState<string>('');
-  const [mostrarExplicacion, setMostrarExplicacion] = useState<boolean>(true); // Estado para mostrar el aviso
+  const [formData, setFormData] = useState({
+    capital: '',
+    tasaInteres: '',
+    periodo: '',
+  });
+  const [mostrarExplicacion, setMostrarExplicacion] = useState<boolean>(true);
   const router = useRouter();
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
   const calcularRentaInmediata = () => {
+    const { capital, tasaInteres, periodo } = formData;
     if (!capital || !tasaInteres || !periodo) {
       alert('Por favor, completa todos los campos.');
     } else {
-      // Retraso de 500ms antes de realizar la redirección
       setTimeout(() => {
         router.push({
           pathname: 'resultados/ResultadoInmediatas',
-          query: { capital, tasaInteres, periodo },
+          query: { ...formData },
         });
-      }, 500); // Retraso de 500 milisegundos
+      }, 500);
     }
   };
 
@@ -28,53 +37,61 @@ const CalculadoraRentaInmediata: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      {mostrarExplicacion && (
-        <div className={styles.modal}>
-          <div className={styles.modalContent}>
-            <h2 className={styles.modalTitle}>¿Qué es una renta inmediata?</h2>
-            <p>
-              Una renta inmediata es una serie de pagos periódicos que comienzan de inmediato tras invertir un capital inicial. Se utiliza para generar ingresos regulares sin retrasos.
-            </p>
-            <button className={styles.closeButton} onClick={cerrarExplicacion}>
-              Entendido
-            </button>
-          </div>
-        </div>
-      )}
+     
 
-      <h2 className={styles.labelA}>Calculadora de Renta Inmediata</h2>
-      <div className={styles.inputContainer}>
-        <div className={styles.row}>
-          <h3 className={styles.label}>Capital Inicial</h3>
+      <h1 className={styles.title}>Calculadora de Renta Inmediata</h1>
+      <p className={styles.description}>
+        Utiliza esta herramienta para calcular los pagos periódicos que recibirías al invertir un capital inicial en una renta inmediata.
+      </p>
+
+      <form className={styles.form}>
+        <div className={styles.formGroup}>
+          <label htmlFor="capital" className={styles.label}>Capital Inicial</label>
           <input
-            className={styles.input}
+            id="capital"
+            name="capital"
             type="number"
-            value={capital}
-            onChange={(e) => setCapital(e.target.value)}
+            value={formData.capital}
+            onChange={handleInputChange}
+            placeholder="Ej: 100000"
+            className={styles.input}
           />
         </div>
-        <div className={styles.row}>
-          <h3 className={styles.label}>Tasa de Interés (%)</h3>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="tasaInteres" className={styles.label}>Tasa de Interés (%)</label>
           <input
-            className={styles.input}
+            id="tasaInteres"
+            name="tasaInteres"
             type="number"
-            value={tasaInteres}
-            onChange={(e) => setTasaInteres(e.target.value)}
+            value={formData.tasaInteres}
+            onChange={handleInputChange}
+            placeholder="Ej: 5"
+            className={styles.input}
           />
         </div>
-        <div className={styles.row}>
-          <h3 className={styles.label}>Período de Pago (meses)</h3>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="periodo" className={styles.label}>Período de Pago (meses)</label>
           <input
-            className={styles.input}
+            id="periodo"
+            name="periodo"
             type="number"
-            value={periodo}
-            onChange={(e) => setPeriodo(e.target.value)}
+            value={formData.periodo}
+            onChange={handleInputChange}
+            placeholder="Ej: 12"
+            className={styles.input}
           />
         </div>
-      </div>
-      <button className={styles.touchableButton} onClick={calcularRentaInmediata}>
-        <span className={styles.buttonText}>Calcular Renta</span>
-      </button>
+
+        <button type="button" className={styles.button} onClick={calcularRentaInmediata}>
+          Calcular Renta
+        </button>
+      </form>
+
+      <p className={styles.disclaimer}>
+        Nota: Esta calculadora proporciona una estimación. Los resultados reales pueden variar dependiendo de las condiciones específicas del producto de renta inmediata.
+      </p>
     </div>
   );
 };

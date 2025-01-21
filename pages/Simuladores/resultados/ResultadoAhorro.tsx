@@ -16,11 +16,11 @@ interface RouteParams {
 
 const ResultadoAhorro: React.FC = () => {
   const router = useRouter();
-  
+
   // Verificación segura de los parámetros
   const { meta, tasaInteres, periodo, tipoInteres } = router.query as unknown as RouteParams;
 
-  const [ahorroNecesario, setAhorroNecesario] = useState<number | null>(null); // Usamos null para el valor inicial
+  const [ahorroNecesario, setAhorroNecesario] = useState<number | null>(null);
   const [graficoData, setGraficoData] = useState<any>(null);
 
   const calcularAhorroNecesario = () => {
@@ -41,13 +41,13 @@ const ResultadoAhorro: React.FC = () => {
       const ahorro = calcularAhorroNecesario();
       setAhorroNecesario(ahorro);
 
-      // Generar el gráfico después de calcular el ahorro necesario
-      const labels = Array.from({ length: Math.min(10, parseFloat(periodo || '0')) }, (_, i) => ((i + 1) % 5 === 0 || i === Math.min(10, parseFloat(periodo || '0')) - 1 ? (i + 1).toString() : ''));
+      // Generar el gráfico de ahorro acumulado
+      const labels = Array.from({ length: Math.min(10, parseFloat(periodo || '0')) }, (_, i) => `Año ${i + 1}`);
       const data = {
         labels,
         datasets: [
           {
-            label: 'Ahorro acumulado',
+            label: 'Progreso del ahorro acumulado',
             data: Array.from({ length: Math.min(10, parseFloat(periodo || '0')) }, (_, i) => ahorro * 12 * (i + 1)),
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             borderColor: 'rgba(75, 192, 192, 1)',
@@ -65,29 +65,30 @@ const ResultadoAhorro: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.enunciado}>Datos introducidos</h2>
-      <p className={styles.labelText}>Meta de ahorro: <span className={styles.resultText}>{meta}</span></p>
-      <p className={styles.labelText}>Tasa de Interés: <span className={styles.resultText}>{tasaInteres} %</span></p>
-      <p className={styles.labelText}>Período: <span className={styles.resultText}>{periodo} años</span></p>
+      <h2 className={styles.enunciado}>Información introducida</h2>
+      <p className={styles.labelText}>Meta de ahorro: <span className={styles.resultText}>{meta} €</span></p>
+      <p className={styles.labelText}>Tasa de interés anual: <span className={styles.resultText}>{tasaInteres} %</span></p>
+      <p className={styles.labelText}>Período estimado: <span className={styles.resultText}>{periodo} años</span></p>
 
-      <h2 className={styles.enunciado}>Resultado</h2>
-      <p className={styles.labelText}>Ahorro necesario mensual: <span className={styles.resultText}>{ahorroNecesario?.toFixed(2)}</span></p>
+      <h2 className={styles.enunciado}>Estimación de ahorro</h2>
+      <p className={styles.labelText}>Ahorro mensual necesario: <span className={styles.resultText}>{ahorroNecesario?.toFixed(2)} €</span></p>
+      <p className={styles.noteText}>Nota: Este cálculo es solo una aproximación. Los resultados pueden variar según las condiciones financieras reales.</p>
 
       {graficoData ? (
         <div style={{ height: '300px', width: '100%' }}>
           <Line data={graficoData} options={{ responsive: true, maintainAspectRatio: true }} />
-          <p className={styles.labelXAxis}>Años</p>
+          <p className={styles.labelXAxis}>Tiempo en años</p>
         </div>
       ) : (
         <p>No hay datos disponibles para mostrar el gráfico.</p>
       )}
 
-      {/* Separar el botón del gráfico con margen superior */}
       <button onClick={volver} className={`${styles.touchableButtonV} ${styles.marginTopButton}`}>
-        VOLVER
+        Volver al inicio
       </button>
     </div>
   );
 };
 
 export default ResultadoAhorro;
+

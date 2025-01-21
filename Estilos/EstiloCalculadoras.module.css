@@ -1,104 +1,97 @@
 .container {
-  width: 90%;
-  max-width: 500px;
-  padding: 20px;
-  background: #efe238;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(208, 138, 138, 0.86);
-  font-family: 'Arial', sans-serif;
-  color: #333333;
-  margin: 20px auto;
-  position: relative;
-}
-
-.labelA {
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  color: #2c3e50;
-}
-
-.inputContainer {
-  margin-bottom: 1.5rem;
-}
-
-.row {
-  margin-bottom: 1rem;
-}
-
-.label {
-  font-size: 1rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  color: #34495e;
-}
-
-.input, .picker {
-  width: 100%;
-  padding: 10px 15px;
-  font-size: 1rem;
-  background-color: #f4f6f9;
-  border: 2px solid #7f8c8d;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #f8f9fa;
   border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
   text-align: center;
-  margin-bottom: 10px;
 }
 
-.input:focus, .picker:focus {
-  border-color: #3498db;
-  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
-  outline: none;
+.description {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
-.pickerContainer {
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGroup {
   display: flex;
   flex-direction: column;
 }
 
-.touchableButton {
-  width: 100%;
-  padding: 12px;
-  margin-top: 30px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  background: #2980b9;
-  color: #ffffff;
+.formRow {
+  display: flex;
+  gap: 1rem;
+}
+
+.label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.input,
+.select {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.button {
+  padding: 1rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.disclaimer {
+  font-size: 0.875rem;
+  color: #666;
+  margin-top: 2rem;
+  text-align: center;
+}
+.secondaryButton{
+  padding: 12px 24px;
+  margin: 20px 0;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s;
-}
-
-.touchableButton:hover {
-  background: #1f5f8a;
-}
-
-.touchableButton:active {
-  background: #145374;
-}
-
-.buttonText {
-  display: inline-block;
-  margin: 0;
-}
-.touchableButtonV {
-  background-color: #2ecc71;
-  color: rgb(62, 55, 55);
-}
-
-
-
-@media (min-width: 768px) {
-  .pickerContainer {
-    flex-direction: row;
-  }
-
-  .input, .picker {
-    width: 48%;
-  }
-
-  .picker {
-    margin-left: 4%;
-  }
+  font-size: 1.1em;
+  transition: background-color 0.3s ease;
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  text-align: center;
+  background-color: #139401;
+  color: white;
 }

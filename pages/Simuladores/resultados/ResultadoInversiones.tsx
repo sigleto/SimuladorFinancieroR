@@ -18,6 +18,7 @@ export default function ResultadoInversiones() {
   const [totalPagado, setTotalPagado] = useState<string>('');
   const [rendimientoAcumulado, setRendimientoAcumulado] = useState<string>('');
   const [ganancia, setGanancia] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(true); // Estado de carga
 
   const calculateInvestment = () => {
     if (!principal || !rate || !time || !contributions || !tipoInteres || !unidadPeriodo) return;
@@ -69,7 +70,9 @@ export default function ResultadoInversiones() {
   };
 
   useEffect(() => {
+    setIsLoading(true); // Se inicia la carga
     calculateInvestment();
+    setIsLoading(false); // Se termina la carga
   }, [principal, rate, time, contributions, tipoInteres, unidadPeriodo]);
 
   const AccesoTabla = () => {
@@ -123,8 +126,14 @@ export default function ResultadoInversiones() {
       <p className={styles.labelText}>Contribuciones anuales: <span className={styles.resultText}>{contributions}</span></p>
 
       <h2 className={styles.enunciado}>Resultado</h2>
-      <p className={styles.labelText}>Valor futuro: <span className={styles.resultText}>{result}</span></p>
-      <p className={styles.labelText}>Rendimiento de la inversión: <span className={styles.resultTextr}>{ganancia}</span></p>
+      {isLoading ? (
+        <p>Cargando...</p> // Mensaje de carga
+      ) : (
+        <>
+          <p className={styles.labelText}>Valor futuro: <span className={styles.resultText}>{result}</span></p>
+          <p className={styles.labelText}>Rendimiento de la inversión: <span className={styles.resultTextr}>{ganancia}</span></p>
+        </>
+      )}
 
       <button onClick={AccesoTabla} className={styles.touchableButton}>Acceso a Tabla</button>
       <button onClick={volver} className={styles.touchableButtonV}>VOLVER</button>

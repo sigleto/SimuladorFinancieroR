@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';  // Usamos useRouter en lugar de useNavigate
-import styles from '../../Estilos/EstiloCalculadoras.module.css';  // Importamos los estilos
+import { useRouter } from 'next/router';
+import styles from '../../Estilos/EstiloCalculadoras.module.css';
 
 interface Moneda {
   codigo: string;
@@ -51,26 +51,38 @@ const monedas: Moneda[] = [
 ];
 
 const ConversorDivisas: React.FC = () => {
-  const [monedaOrigen, setMonedaOrigen] = useState<string>('USD');
-  const [monedaDestino, setMonedaDestino] = useState<string>('EUR');
+  const [formData, setFormData] = useState({
+    cantidadIntroducida: '',
+    monedaOrigen: 'USD',
+    monedaDestino: 'EUR',
+  });
   const [tipoCambio, setTipoCambio] = useState<string>('');
   const [resultado, setResultado] = useState<string>('');
-  const [cantidadIntroducida, setCantidadIntroducida] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [mensajeEstado, setMensajeEstado] = useState<string>('');
+
+  const router = useRouter();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
 
   const obtenerTipoCambio = async () => {
     try {
       const response = await fetch(
-        `https://v6.exchangerate-api.com/v6/d93ad7934d4b03cf5de6577a/latest/${monedaOrigen}`
+        `https://v6.exchangerate-api.com/v6/d93ad7934d4b03cf5de6577a/latest/${formData.monedaOrigen}`
       );
       const data = await response.json();
 
       if (response.ok) {
-        if (data && data.conversion_rates && data.conversion_rates[monedaDestino]) {
-          const tasaCambio = data.conversion_rates[monedaDestino];
+        if (data && data.conversion_rates && data.conversion_rates[formData.monedaDestino]) {
+          const tasaCambio = data.conversion_rates[formData.monedaDestino];
           setTipoCambio(tasaCambio.toString());
-          setMensajeEstado(`Cantidad introducida: ${cantidadIntroducida} ${monedaOrigen}`);
+          setMensajeEstado(`Cantidad introducida: ${formData.cantidadIntroducida} ${formData.monedaOrigen}`);
           setError('');
         } else {
           setError('Error: La moneda de origen o destino no está disponible.');
@@ -90,82 +102,103 @@ const ConversorDivisas: React.FC = () => {
     }
 
     setError('');
-    const cantidadFloat = parseFloat(cantidadIntroducida);
+    const cantidadFloat = parseFloat(formData.cantidadIntroducida);
     const resultadoCalculado = cantidadFloat * parseFloat(tipoCambio);
     setResultado(resultadoCalculado.toFixed(2).toString());
   };
 
-  const router = useRouter();  // Usamos useRouter para la navegación
   const volver = () => {
-    router.push('/');  // Navegamos a la página principal
+    router.push('/');
   };
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.labelA}>Conversor de Divisas</h2>
-      
-      <div className={styles.row}>
-        <h3 className={styles.label}>Cantidad a convertir</h3>
-        <input
-          className={styles.input}
-          type="number"
-          value={cantidadIntroducida}
-          onChange={(e) => setCantidadIntroducida(e.target.value)}
-        />
-      </div>
+      <h1 className={styles.title}>Conversor de Divisas</h1>
+      <p className={styles.description}>
+        Convierte fácilmente entre múltiples monedas utilizando tasas de cambio en tiempo real.
+      </p>
 
-      <div className={styles.row}>
-        <h3 className={styles.label}>Moneda de origen</h3>
-        <select
-          className={styles.picker}
-          value={monedaOrigen}
-          onChange={(e) => setMonedaOrigen(e.target.value)}
-        >
-          {monedas.map((moneda) => (
-            <option key={moneda.codigo} value={moneda.codigo}>
-              {moneda.nombre}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className={styles.row}>
-        <h3 className={styles.label}>Moneda de destino</h3>
-        <select
-          className={styles.picker}
-          value={monedaDestino}
-          onChange={(e) => setMonedaDestino(e.target.value)}
-        >
-          {monedas.map((moneda) => (
-            <option key={moneda.codigo} value={moneda.codigo}>
-              {moneda.nombre}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <button className={styles.touchableButton} onClick={obtenerTipoCambio}>
-        <span className={styles.buttonText}>Obtener Tipo de Cambio</span>
-      </button>
-
-      {tipoCambio && (
-        <div>
-          <p>{mensajeEstado}</p>
-          <p>Tipo de Cambio: 1 {monedaOrigen} = {tipoCambio} {monedaDestino}</p>
+      <form className={styles.form}>
+        <div className={styles.formGroup}>
+          <label htmlFor="cantidadIntroducida" className={styles.label}>Cantidad a convertir</label>
+          <input
+            id="cantidadIntroducida"
+            name="cantidadIntroducida"
+            type="number"
+            value={formData.cantidadIntroducida}
+            onChange={handleInputChange}
+            placeholder="Ingrese la cantidad"
+            className={styles.input}
+          />
         </div>
-      )}
 
-      {error && <p className={styles.errorText}>{error}</p>}
+        <div className={styles.formRow}>
+          <div className={styles.formGroup}>
+            <label htmlFor="monedaOrigen" className={styles.label}>Moneda de origen</label>
+            <select
+              id="monedaOrigen"
+              name="monedaOrigen"
+              value={formData.monedaOrigen}
+              onChange={handleInputChange}
+              className={styles.select}
+            >
+              {monedas.map((moneda) => (
+                <option key={moneda.codigo} value={moneda.codigo}>
+                  {moneda.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
 
-      <button className={styles.touchableButton} onClick={convertirDivisas}>
-        <span className={styles.buttonText}>Convertir</span>
+          <div className={styles.formGroup}>
+            <label htmlFor="monedaDestino" className={styles.label}>Moneda de destino</label>
+            <select
+              id="monedaDestino"
+              name="monedaDestino"
+              value={formData.monedaDestino}
+              onChange={handleInputChange}
+              className={styles.select}
+            >
+              {monedas.map((moneda) => (
+                <option key={moneda.codigo} value={moneda.codigo}>
+                  {moneda.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <button type="button" className={styles.button} onClick={obtenerTipoCambio}>
+          Obtener Tipo de Cambio
+        </button>
+
+        {tipoCambio && (
+          <div className={styles.resultBox}>
+            <p>{mensajeEstado}</p>
+            <p>Tipo de Cambio: 1 {formData.monedaOrigen} = {tipoCambio} {formData.monedaDestino}</p>
+          </div>
+        )}
+
+        {error && <p className={styles.errorText}>{error}</p>}
+
+        <button type="button" className={styles.button} onClick={convertirDivisas}>
+          Convertir
+        </button>
+
+        {resultado && (
+          <p className={styles.resultText}>
+            Resultado: {resultado} {formData.monedaDestino}
+          </p>
+        )}
+      </form>
+
+      <button className={styles.secondaryButton} onClick={volver}>
+        Volver
       </button>
 
-      {resultado && <p className={styles.resultText}>Resultado: {resultado} {monedaDestino}</p>}
-
-      <button className={styles.touchableButtonV} onClick={volver}>
-        <span className={styles.buttonTextV}>VOLVER</span>
-      </button>
+      <p className={styles.disclaimer}>
+        Nota: Las tasas de cambio se actualizan en tiempo real. Los resultados son aproximados y pueden variar ligeramente.
+      </p>
     </div>
   );
 };

@@ -1,64 +1,93 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';  // Importamos useRouter para la navegación
-import styles from '../../Estilos/EstiloCalculadoras.module.css';  // Importamos los estilos
+import { useRouter } from 'next/router';
+import styles from '../../Estilos/EstiloCalculadoras.module.css';
 
 const CalculadoraPrestamos: React.FC = () => {
-  const [capital, setCapital] = useState<string>('');
-  const [tasaInteres, setTasaInteres] = useState<string>('');
-  const [periodo, setPeriodo] = useState<string>('');
-  const router = useRouter();  // Usamos el hook useRouter para manejar la navegación
+  const [formData, setFormData] = useState({
+    capital: '',
+    tasaInteres: '',
+    periodo: ''
+  });
+  const router = useRouter();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
 
   const calcularCuota = () => {
+    const { capital, tasaInteres, periodo } = formData;
     if (!capital || !tasaInteres || !periodo) {
       alert('Por favor, completa todos los campos.');
     } else {
-      // Navegamos a la página de resultados pasando los valores como query parameters
       router.push({
         pathname: 'resultados/ResultadosPrestamo',
-        query: { capital, tasaInteres, periodo }
+        query: { ...formData },
       });
     }
   };
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.labelA}>Calculadora de Préstamos</h2>
+      <h1 className={styles.title}>Calculadora de Préstamos</h1>
+      <p className={styles.description}>
+        Utiliza esta herramienta para calcular las cuotas mensuales de tu préstamo y planificar tus pagos.
+      </p>
 
-      <div className={styles.inputContainer}>
-        <div className={styles.row}>
-          <h3 className={styles.label}>Capital</h3>
+      <form className={styles.form}>
+        <div className={styles.formGroup}>
+          <label htmlFor="capital" className={styles.label}>Capital</label>
+          <p className={styles.inputDescription}>Ingresa el monto total del préstamo que deseas solicitar.</p>
           <input
-            className={styles.input}
+            id="capital"
+            name="capital"
             type="number"
-            value={capital}
-            onChange={(e) => setCapital(e.target.value)}
+            value={formData.capital}
+            onChange={handleInputChange}
+            placeholder="Ej: 10000"
+            className={styles.input}
           />
         </div>
 
-        <div className={styles.row}>
-          <h3 className={styles.label}>Tasa de Interés (%)</h3>
+        <div className={styles.formGroup}>
+          <label htmlFor="tasaInteres" className={styles.label}>Tasa de Interés (%)</label>
+          <p className={styles.inputDescription}>Especifica la tasa de interés anual del préstamo.</p>
           <input
-            className={styles.input}
+            id="tasaInteres"
+            name="tasaInteres"
             type="number"
-            value={tasaInteres}
-            onChange={(e) => setTasaInteres(e.target.value)}
+            value={formData.tasaInteres}
+            onChange={handleInputChange}
+            placeholder="Ej: 5"
+            className={styles.input}
           />
         </div>
 
-        <div className={styles.row}>
-          <h3 className={styles.label}>Período (meses)</h3>
+        <div className={styles.formGroup}>
+          <label htmlFor="periodo" className={styles.label}>Período (meses)</label>
+          <p className={styles.inputDescription}>Indica la duración del préstamo en meses.</p>
           <input
-            className={styles.input}
+            id="periodo"
+            name="periodo"
             type="number"
-            value={periodo}
-            onChange={(e) => setPeriodo(e.target.value)}
+            value={formData.periodo}
+            onChange={handleInputChange}
+            placeholder="Ej: 12"
+            className={styles.input}
           />
         </div>
-      </div>
 
-      <button className={styles.touchableButton} onClick={calcularCuota}>
-        <span className={styles.buttonText}>Calcular Cuota</span>
-      </button>
+        <button type="button" className={styles.button} onClick={calcularCuota}>
+          Calcular Cuota
+        </button>
+      </form>
+
+      <p className={styles.disclaimer}>
+        Nota: Esta calculadora proporciona una estimación. Las cuotas reales pueden variar según las condiciones específicas del préstamo.
+      </p>
     </div>
   );
 };
