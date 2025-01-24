@@ -1,9 +1,9 @@
 import React from 'react';
-import Head from 'next/head'; // Importa el componente Head
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { FaChartLine, FaCalculator, FaExchangeAlt, FaPiggyBank, FaChartBar, FaUserClock, FaHourglassStart } from 'react-icons/fa';
+import { FaCalculator, FaPiggyBank, FaChartLine, FaExchangeAlt, FaChartBar, FaUserClock, FaHourglassStart } from 'react-icons/fa';
 import styles from '../Estilos/index.module.css';
 
 const Home: React.FC = () => {
@@ -17,22 +17,52 @@ const Home: React.FC = () => {
   };
 
   const features = [
-    { icon: <FaCalculator />, text: "Simulador de Préstamos", path: "/Simuladores/CalculadoraPrestamo" },
-    { icon: <FaPiggyBank />, text: "Simulador de Ahorros", path: "/Simuladores/CalculadoraAhorros" },
-    { icon: <FaChartLine />, text: "Simulador de Inversiones", path: "/Simuladores/CalculadoraInversiones" },
-    { icon: <FaExchangeAlt />, text: "Conversor de Divisas", path: "/Simuladores/ConversorDivisas" },
-    { icon: <FaChartBar />, text: "Cotizador de Acciones NY", path: "/Simuladores/RentabilidadAcciones" },
-    { icon: <FaUserClock />, text: "Simulador de Jubilación", path: "/Simuladores/SimuladorJubilacion" },
-    { icon: <FaHourglassStart />, text: "Simulador de Rentas Inmediatas", path: "/Simuladores/RentasInmediatas" }
-  ];
+    { 
+      image: "/ahorros.jpg", 
+      title: "Simulador de Ahorro", 
+      description: "Ahorra con cabeza y haz que tu dinero crezca solo.", 
+      path: "/Simuladores/CalculadoraAhorros" 
+    },
+    { 
+      image: "/prestamo.jpg", 
+      title: "Simulador de Préstamos", 
+      description: "¿Cuánto pagarás al mes? Descúbrelo antes de endeudarte.", 
+      path: "/Simuladores/CalculadoraPrestamo" 
+    },
+    { 
+      image: "/inversion.jpg", 
+      title: "Simulador de Inversiones", 
+      description: "Pon tu dinero a trabajar y mira cuánto podrías ganar.", 
+      path: "/Simuladores/CalculadoraInversiones" 
+    },
+    { 
+      image: "/divisas.jpg", 
+      title: "Conversor de Divisas", 
+      description: "Convierte monedas al instante y sin complicaciones.", 
+      path: "/Simuladores/ConversorDivisas" 
+    },
+    { 
+      image: "/cotizacion.jpg", 
+      title: "Cotización de Acciones NY", 
+      description: "Consulta precios y ve si es el momento de invertir.", 
+      path: "/Simuladores/RentabilidadAcciones" 
+    },
+    { 
+      image: "/inmediata.jpg", 
+      title: "Simulador de Rentas Inmediatas", 
+      description: "¿Cuánto ganarás cada mes? Haz números y decide.", 
+      path: "/Simuladores/RentasInmediatas" 
+    },
+    { 
+      image: "/jubilacion.jpg", 
+      title: "Simulador de Jubilación", 
+      description: "Planifica tu retiro sin sorpresas y con tranquilidad.", 
+      path: "/Simuladores/SimuladorJubilacion" 
+    },
+    // ... Añade el resto de los simuladores de manera similar
+];
 
-  const benefits = [
-    "Maximizar ahorros y rendimientos.",
-    "Planificar préstamos con pagos asequibles.",
-    "Diversificar inversiones con datos realistas.",
-    "Minimizar riesgos financieros con mejor información.",
-    "Preparar un plan sólido para la jubilación.",
-  ];
+  
 
   return (
     <>
@@ -53,34 +83,44 @@ const Home: React.FC = () => {
             </p>
           </section>
           <section className={styles['features-section']}>
-            <h2 className={styles['section-title']}>Simuladores Destacados</h2>
-            <div className={styles['features-grid']}>
-              {features.map((feature, index) => (
-                <Link key={index} href={feature.path}>
-                  <motion.div className={styles['feature-item']} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <span className={styles['feature-icon']}>{feature.icon}</span>
-                    <p>{feature.text}</p>
-                  </motion.div>
-                </Link>
-              ))}
-            </div>
-          </section>
-          <section className={styles['benefits-section']}>
-            <h2 className={styles['section-title']}>¿Por qué usar nuestros simuladores?</h2>
-            <p className={styles['benefits-text']}>
-              Decisiones financieras inteligentes son clave para tus metas a corto y largo plazo. Nuestros simuladores ayudan a:
-            </p>
-            <ul className={styles['benefits-list']}>
-              {benefits.map((benefit, index) => (
-                <motion.li key={index} className={styles['benefit-item']} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.2 }}>
-                  {benefit}
-                </motion.li>
-              ))}
-            </ul>
-          </section>
+  <h2 className={styles['section-title']}>Simuladores Destacados</h2>
+  <div className={styles['features-grid']}>
+    {features.map((feature, index) => (
+      <Link key={index} href={feature.path}>
+        <div className={styles['feature-item']}>
+          <img src={feature.image} alt={feature.title} className={styles['feature-image']} />
+          <h3 className={styles['feature-title']}>{feature.title}</h3>
+          <p className={styles['feature-description']}>{feature.description}</p>
+        </div>
+      </Link>
+    ))}
+  </div>
+</section>
+
           <motion.button onClick={() => handleNavigation('/Herramientas')} className={styles['cta-button']} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             Explorar Todos los Simuladores
           </motion.button>
+          <section className={styles['benefits-explanation']}>
+  <div className={styles['benefits-text']}>
+    <h3>Potencia tu Futuro Financiero</h3>
+    
+    <p>En el complejo mundo de las finanzas personales, tomar decisiones informadas es crucial para asegurar un futuro próspero y estable. Nuestros simuladores financieros son mucho más que simples herramientas de cálculo; son tu aliado estratégico en la planificación financiera.</p>
+    
+    <h3>Beneficios Clave</h3>
+    <ul>
+      <li>Visualización precisa de escenarios financieros</li>
+      <li>Optimización de estrategias de ahorro e inversión</li>
+      <li>Reducción de riesgos financieros</li>
+      <li>Planificación clara de metas a corto y largo plazo</li>
+    </ul>
+
+    <p>Cada simulador está diseñado para ofrecerte insights profundos y personalizados. Ya sea que estés planeando tu jubilación, buscando optimizar tus inversiones o calculando préstamos, tenemos la herramienta perfecta para ti.</p>
+
+    <h3>Transformación Financiera</h3>
+    <p>No se trata solo de números, sino de empoderar tu toma de decisiones. Con información clara y herramientas intuitivas, podrás diseñar tu estrategia financiera con confianza y precisión.</p>
+  </div>
+</section>
+
         </main>
         <footer className={styles['home-footer']}>
           <p>&copy; 2025 Finanzas Inteligentes. Diseñado para potenciar tu futuro financiero.</p>
