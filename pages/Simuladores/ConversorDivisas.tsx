@@ -192,7 +192,7 @@ const ConversorDivisas: React.FC = () => {
         )}
       </form>
 
-      <button className={styles.secondaryButton} onClick={volver}>
+      <button className={styles.toggleButton} onClick={volver}>
         Volver
       </button>
 

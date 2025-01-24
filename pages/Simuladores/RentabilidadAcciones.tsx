@@ -115,7 +115,7 @@ const RentabilidadAcciones: React.FC = () => {
         </div>
       )}
 
-      <button className={styles.secondaryButton} onClick={volver}>
+      <button className={styles.toggleButton} onClick={volver}>
         Volver
       </button>
 

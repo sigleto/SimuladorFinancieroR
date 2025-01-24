@@ -4,7 +4,6 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import styles from '../../../Estilos/EstiloResultados.module.css';
 
-// Registro de componentes de Chart.js
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 interface RouteParams {
@@ -19,7 +18,7 @@ const ResultadosRentaInmediata: React.FC = () => {
 
   const [rentaMensual, setRentaMensual] = useState<string>('');
   const [graficoData, setGraficoData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true); // Estado de carga
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const calcularRentaMensual = (capital: number, tasaInteres: number, periodo: number): number => {
     return (capital * tasaInteres) / (1 - Math.pow(1 + tasaInteres, -periodo));
@@ -50,12 +49,16 @@ const ResultadosRentaInmediata: React.FC = () => {
       setGraficoData(data);
     }
 
-    setIsLoading(false); // Se termina de cargar
+    setIsLoading(false);
   }, [capital, tasaInteres, periodo]);
 
   const volver = () => {
     router.push('/');
   };
+
+  if (isLoading) {
+    return <div className={styles.loadingContainer}>Cargando resultados...</div>;
+  }
 
   return (
     <div className={styles.container}>
@@ -65,19 +68,13 @@ const ResultadosRentaInmediata: React.FC = () => {
       <p className={styles.labelText}>Período: <span className={styles.resultText}>{periodo} meses</span></p>
 
       <h2 className={styles.enunciado}>Resultado</h2>
-      {isLoading ? (
-        <p>Cargando...</p> // Mensaje de carga
-      ) : (
-        <p className={styles.labelText}>Renta Mensual: <span className={styles.resultText}>{rentaMensual} €</span></p>
-      )}
+      <p className={styles.labelText}>Renta Mensual: <span className={styles.resultText}>{rentaMensual} €</span></p>
 
-      {graficoData ? (
-        <div style={{ height: '300px', width: '100%' }}>
-          <Line data={graficoData} options={{ responsive: true, maintainAspectRatio: true }} />
+      {graficoData && (
+        <div className={styles.graphContainer}>
+          <Line data={graficoData} options={{ responsive: true, maintainAspectRatio: false }} />
           <p className={styles.labelXAxis}>Meses</p>
         </div>
-      ) : (
-        !isLoading && <p>No hay datos disponibles para mostrar el gráfico.</p> // Mostrar mensaje si no hay datos
       )}
 
       <button onClick={volver} className={`${styles.touchableButtonV} ${styles.marginTopButton}`}>
