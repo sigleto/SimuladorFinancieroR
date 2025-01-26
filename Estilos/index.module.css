@@ -226,10 +226,12 @@
     background-color: #007bff;
     padding: 1rem;
     position: absolute;
-    top: 50px;
-    right: 0;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100vh; /* Asegura que el menú ocupe toda la pantalla */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 999; /* Asegura que el menú esté por encima de otros elementos */
   }
 
   .mobile-menu.open {
