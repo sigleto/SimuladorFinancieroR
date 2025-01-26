@@ -236,41 +236,44 @@
   }
 
   /* Estilo para el icono del menú hamburguesa */
-  .menu-button {
-    display: block;
-    position: fixed;
-    top: 10px; /* Establece la distancia desde la parte superior de la pantalla */
-    right: 20px; /* Establece la distancia desde la derecha de la pantalla */
-    z-index: 1001;
-    cursor: pointer;
-  }
+  @media (max-width: 768px) {
+    .menu-button {
+      display: block;
+      position: fixed;
+      top: 10px; /* 10px desde la parte superior de la pantalla */
+      right: 20px; /* 20px desde la parte derecha de la pantalla */
+      z-index: 1001; /* Asegura que el botón se superponga sobre otros elementos */
+      cursor: pointer;
+    }
 
-  /* Estilo para el menú desplegable */
-  .nav-menu {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 50px; /* Ajusta esto según la altura de tu barra de navegación */
-    right: 10px;
-    background: white;
-    padding: 10px;
-    border-radius: 4px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    min-width: 200px; /* Ajusta el ancho según necesites */
-    z-index: 1000;
-  }
+    /* Menú de navegación */
+    .nav-menu {
+      display: none; /* Se oculta inicialmente */
+      flex-direction: column;
+      position: absolute; /* Posición absoluta respecto al botón */
+      top: 40px; /* Asegura que el menú aparezca justo debajo del icono de hamburguesa */
+      right: 10px; /* Alineado con el botón hamburguesa */
+      background: white;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      min-width: 200px; /* Ajusta el tamaño del menú */
+      z-index: 1000; /* Asegura que el menú esté sobre otros elementos */
+    }
 
-  .nav-menu.open {
-    display: flex; /* Solo muestra el menú cuando tiene la clase 'open' */
-  }
+    /* Menú visible cuando tiene la clase 'open' */
+    .nav-menu.open {
+      display: flex;
+    }
 
-  .nav-menu a {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-  }
+    .nav-menu a {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
 
-  .nav-menu a:last-child {
-    border-bottom: none;
+    .nav-menu a:last-child {
+      border-bottom: none;
+    }
   }
 }
