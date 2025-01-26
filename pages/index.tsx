@@ -80,37 +80,39 @@ const Home: React.FC = () => {
             <button onClick={toggleMenu} className={styles["hamburger-button"]}>
               ☰
             </button>
-            {isMenuOpen && (
-              <nav className={styles["mobile-menu"]}>
-                <ul>
-                  <li>
-                    <Link href="/" onClick={toggleMenu}>
-                      Inicio
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/Herramientas2" onClick={toggleMenu}>
-                      Herramientas
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/Herramientas" onClick={toggleMenu}>
-                      Simuladores
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/Informacion" onClick={toggleMenu}>
-                      Información
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/Contacto" onClick={toggleMenu}>
-                      Contacto
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
-            )}
+            <nav
+              className={`${styles["mobile-menu"]} ${
+                isMenuOpen ? styles["open"] : ""
+              }`}
+            >
+              <ul>
+                <li>
+                  <Link href="/" onClick={toggleMenu}>
+                    Inicio
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/Herramientas2" onClick={toggleMenu}>
+                    Herramientas
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/Herramientas" onClick={toggleMenu}>
+                    Simuladores
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/Informacion" onClick={toggleMenu}>
+                    Información
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/Contacto" onClick={toggleMenu}>
+                    Contacto
+                  </Link>
+                </li>
+              </ul>
+            </nav>
           </div>
 
           <p className={styles["subtitle"]}>
