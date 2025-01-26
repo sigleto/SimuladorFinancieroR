@@ -235,40 +235,42 @@
     grid-template-columns: 1fr;
   }
 
-  @media (max-width: 768px) {
-    .menu-button {
-      display: block;
-      position: fixed;
-      top: 10px;
-      right: 20px;
-      z-index: 1001;
-    }
+  /* Estilo para el icono del menú hamburguesa */
+  .menu-button {
+    display: block;
+    position: fixed;
+    top: 10px; /* Establece la distancia desde la parte superior de la pantalla */
+    right: 20px; /* Establece la distancia desde la derecha de la pantalla */
+    z-index: 1001;
+    cursor: pointer;
+  }
 
-    .nav-menu {
-      display: none;
-      flex-direction: column;
-      position: absolute;
-      top: 50px; /* Ajusta esto según la altura de tu barra de navegación */
-      right: 10px;
-      background: white;
-      padding: 10px;
-      border-radius: 4px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      min-width: 200px; /* Ajusta el ancho según necesites */
-    }
+  /* Estilo para el menú desplegable */
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 50px; /* Ajusta esto según la altura de tu barra de navegación */
+    right: 10px;
+    background: white;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    min-width: 200px; /* Ajusta el ancho según necesites */
+    z-index: 1000;
+  }
 
-    .nav-menu.open {
-      display: flex;
-    }
+  .nav-menu.open {
+    display: flex; /* Solo muestra el menú cuando tiene la clase 'open' */
+  }
 
-    .nav-menu a {
-      padding: 10px;
-      text-align: left;
-      border-bottom: 1px solid #eee;
-    }
+  .nav-menu a {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
 
-    .nav-menu a:last-child {
-      border-bottom: none;
-    }
+  .nav-menu a:last-child {
+    border-bottom: none;
   }
 }
