@@ -211,27 +211,37 @@
 
 /* Estilos para el menú hamburguesa */
 .menu-hamburguesa {
-  display: none; /* Ocultamos el menú hamburguesa por defecto */
+  display: none;
 }
 
-/* Mostrar el menú hamburguesa solo en pantallas pequeñas */
 @media (max-width: 768px) {
   .menu-hamburguesa {
-    display: block; /* Menú hamburguesa visible en pantallas pequeñas */
+    display: block;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
   }
 
-  /* Estilos adicionales para la visualización del menú */
+  .hamburger-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
   .mobile-menu {
     display: none;
-    background-color: #007bff;
-    padding: 1rem;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh; /* Asegura que el menú ocupe toda la pantalla */
+    height: 100vh;
+    background-color: rgba(0, 123, 255, 0.95);
+    padding: 2rem;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    z-index: 999; /* Asegura que el menú esté por encima de otros elementos */
+    z-index: 999;
+    overflow-y: auto;
   }
 
   .mobile-menu.open {
@@ -247,16 +257,17 @@
   .mobile-menu li {
     padding: 1rem;
     text-align: center;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .mobile-menu li a {
     color: white;
     text-decoration: none;
+    font-size: 1.2rem;
   }
 
   .mobile-menu li:hover {
-    background-color: #0056b3;
+    background-color: rgba(0, 86, 179, 0.7);
   }
 }
 
