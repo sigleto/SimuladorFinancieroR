@@ -1,17 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import {
-  FaCalculator,
-  FaPiggyBank,
-  FaChartLine,
-  FaExchangeAlt,
-  FaChartBar,
-  FaUserClock,
-  FaHourglassStart,
-} from "react-icons/fa";
+
 import styles from "../Estilos/index.module.css";
 
 const Home: React.FC = () => {
@@ -57,6 +49,17 @@ const Home: React.FC = () => {
     },
     // ... Añade el resto de los simuladores de manera similar
   ];
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const HamburgerIcon = () => (
+    <div
+      className={styles.hamburger}
+      onClick={() => setIsMenuOpen(!isMenuOpen)}
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  );
 
   return (
     <>
@@ -78,10 +81,17 @@ const Home: React.FC = () => {
           <h1 className={styles["main-title"]}>
             Bienvenido a Simuladores Financieros
           </h1>
-          <p className={styles["subtitle"]}>
-            La clave para optimizar tus decisiones financieras
-          </p>
+          <nav className={styles.desktopNav}>
+            {/* Agrega aquí los elementos de tu barra de navegación */}
+          </nav>
+          <HamburgerIcon />
+          {isMenuOpen && (
+            <nav className={styles.mobileNav}>
+              {/* Agrega aquí los elementos de tu menú móvil */}
+            </nav>
+          )}
         </header>
+
         <main className={styles["main-content"]}>
           <section className={styles["description-section"]}>
             <h2 className={styles["section-title"]}>¿Qué ofrecemos?</h2>

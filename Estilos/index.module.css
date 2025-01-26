@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
 
 .home-container {
   display: flex;
@@ -9,7 +8,6 @@
   background-color: #eaf2fd;
   background-image: linear-gradient(135deg, #eaf2fd 0%, #d6e4f0 100%);
 }
-
 .content-wrapper {
   flex-grow: 1;
   display: flex;
@@ -30,7 +28,7 @@
   font-weight: 700;
   margin-bottom: 0.5rem;
   color: #3a4f66;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
@@ -46,7 +44,7 @@
   background: #ffffff;
   border-radius: 20px;
   padding: 3rem;
-  box-shadow: 0 8px 32px rgba(31,38,135,0.1);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
   transition: transform 0.3s ease-in-out;
 }
 
@@ -81,12 +79,12 @@
   background-color: #f9f9f9;
   border-radius: 10px;
   padding: 15px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .feature-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
 .feature-image {
@@ -120,7 +118,7 @@
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   margin-top: 2rem;
   text-decoration: none;
 }
@@ -128,7 +126,7 @@
 .cta-button:hover {
   background-color: #0056b3;
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .home-footer {
@@ -158,57 +156,57 @@
 }
 
 .benefits-explanation {
-  background-color: #f9f9f9;  
-  border-radius: 12px;  
-  padding: 2rem;  
-  margin-top: 2rem;  
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-top: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 1;
 }
 
-.benefits-text {  
-  font-size: 1rem;  
-  line-height: 1.8;  
-  color: #444444;  
-  text-align: left;  
+.benefits-text {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #444444;
+  text-align: left;
   position: relative;
 }
 
-.benefits-text h3 {  
-  color: #007bff;  
-  margin-bottom: 1rem;  
+.benefits-text h3 {
+  color: #007bff;
+  margin-bottom: 1rem;
   border-bottom: 2px solid #007bff;
   padding-bottom: 0.5rem;
 }
 
-.benefits-text p {  
+.benefits-text p {
   margin-bottom: 1rem;
   text-indent: 20px;
-} 
+}
 
-.benefits-text ul {  
+.benefits-text ul {
   list-style-type: none;
   padding: 0;
-} 
+}
 
-.benefits-text li {  
+.benefits-text li {
   background-color: #f0f8ff;
   margin-bottom: 0.5rem;
   padding: 10px;
   border-radius: 5px;
   position: relative;
   padding-left: 30px;
-} 
+}
 
-.benefits-text li::before {  
-  content: '✓';  
+.benefits-text li::before {
+  content: "✓";
   color: #007bff;
   position: absolute;
   left: 10px;
   top: 10px;
   font-weight: bold;
-} 
+}
 
 @media (max-width: 768px) {
   .main-title {
@@ -234,5 +232,75 @@
 
   .features-grid {
     grid-template-columns: 1fr;
+  }
+  .hamburger {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: #007bff;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 999;
+  }
+
+  .mobile-nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 70px;
+  }
+
+  .mobile-nav li {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .mobile-nav a {
+    color: #ffffff;
+    font-size: 1.2rem;
+    text-decoration: none;
+  }
+
+  @media (max-width: 768px) {
+    .hamburger {
+      display: block;
+    }
+
+    .desktop-nav {
+      display: none;
+    }
+
+    .mobile-nav.active {
+      display: block;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .desktop-nav {
+      display: block;
+    }
+
+    .hamburger,
+    .mobile-nav {
+      display: none;
+    }
   }
 }
