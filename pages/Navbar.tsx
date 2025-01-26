@@ -9,7 +9,7 @@ import {
   FaEnvelope,
   FaBars,
 } from "react-icons/fa";
-import styles from "../Estilos/EstiloNavbar.module.css"; // Asegúrate de crear este archivo CSS
+import styles from "../Estilos/EstiloNavbar.module.css"; // Asegúrate de que este archivo CSS tenga el código anterior
 
 const menuItems = [
   { label: "Inicio", path: "/", icon: <FaHome /> },
@@ -54,7 +54,7 @@ const Navbar: React.FC = () => {
         </div>
 
         {isOpen && (
-          <div className={styles.mobileMenu}>
+          <div className={`${styles.mobileMenu} ${isOpen ? styles.open : ""}`}>
             {menuItems.map((item) => (
               <Link key={item.path} href={item.path}>
                 <div

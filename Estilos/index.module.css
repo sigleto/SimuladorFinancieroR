@@ -237,7 +237,7 @@
 
   /* Estilo para el icono del menú hamburguesa */
   @media (max-width: 768px) {
-    .menu-button {
+    .mobileMenuToggle {
       display: block;
       position: fixed;
       top: 10px; /* 10px desde la parte superior de la pantalla */
@@ -246,33 +246,33 @@
       cursor: pointer;
     }
 
-    /* Menú de navegación */
-    .nav-menu {
-      display: none; /* Se oculta inicialmente */
-      flex-direction: column;
-      position: absolute; /* Posición absoluta respecto al botón */
-      top: 40px; /* Asegura que el menú aparezca justo debajo del icono de hamburguesa */
-      right: 10px; /* Alineado con el botón hamburguesa */
-      background: white;
+    /* Menú de navegación en dispositivos móviles */
+    .mobileMenu {
+      display: none; /* Oculto por defecto */
+      position: absolute;
+      top: 40px; /* Ajusta la distancia del menú debajo del icono hamburguesa */
+      right: 10px; /* Alineado con el icono hamburguesa */
+      background-color: white;
       padding: 10px;
       border-radius: 4px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       min-width: 200px; /* Ajusta el tamaño del menú */
-      z-index: 1000; /* Asegura que el menú esté sobre otros elementos */
+      z-index: 1000;
     }
 
-    /* Menú visible cuando tiene la clase 'open' */
-    .nav-menu.open {
-      display: flex;
+    /* Mostrar el menú cuando está abierto */
+    .mobileMenu.open {
+      display: flex; /* Se muestra cuando el estado isOpen es true */
+      flex-direction: column;
     }
 
-    .nav-menu a {
+    .mobileMenuItem {
       padding: 10px;
       text-align: left;
       border-bottom: 1px solid #eee;
     }
 
-    .nav-menu a:last-child {
+    .mobileMenuItem:last-child {
       border-bottom: none;
     }
   }
