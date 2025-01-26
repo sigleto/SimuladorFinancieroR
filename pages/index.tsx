@@ -9,6 +9,12 @@ import styles from "../Estilos/index.module.css";
 const Home: React.FC = () => {
   const router = useRouter();
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   const handleNavigation = (path: string) => router.push(path);
 
   const fadeIn = {
@@ -49,17 +55,6 @@ const Home: React.FC = () => {
     },
     // ... Añade el resto de los simuladores de manera similar
   ];
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const HamburgerIcon = () => (
-    <div
-      className={styles.hamburger}
-      onClick={() => setIsMenuOpen(!isMenuOpen)}
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  );
 
   return (
     <>
@@ -81,17 +76,47 @@ const Home: React.FC = () => {
           <h1 className={styles["main-title"]}>
             Bienvenido a Simuladores Financieros
           </h1>
-          <nav className={styles.desktopNav}>
-            {/* Agrega aquí los elementos de tu barra de navegación */}
-          </nav>
-          <HamburgerIcon />
-          {isMenuOpen && (
-            <nav className={styles.mobileNav}>
-              {/* Agrega aquí los elementos de tu menú móvil */}
-            </nav>
-          )}
-        </header>
+          <div className={styles["menu-hamburguesa"]}>
+            <button onClick={toggleMenu} className={styles["hamburger-button"]}>
+              ☰
+            </button>
+            {isMenuOpen && (
+              <nav className={styles["mobile-menu"]}>
+                <ul>
+                  <li>
+                    <Link href="/" onClick={toggleMenu}>
+                      Inicio
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/Herramientas2" onClick={toggleMenu}>
+                      Herramientas
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/Herramientas" onClick={toggleMenu}>
+                      Simuladores
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/Informacion" onClick={toggleMenu}>
+                      Información
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/Contacto" onClick={toggleMenu}>
+                      Contacto
+                    </Link>
+                  </li>
+                </ul>
+              </nav>
+            )}
+          </div>
 
+          <p className={styles["subtitle"]}>
+            La clave para optimizar tus decisiones financieras
+          </p>
+        </header>
         <main className={styles["main-content"]}>
           <section className={styles["description-section"]}>
             <h2 className={styles["section-title"]}>¿Qué ofrecemos?</h2>
