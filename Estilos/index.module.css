@@ -209,75 +209,6 @@
   font-weight: bold;
 }
 
-/* Estilos para el menú hamburguesa */
-.menu-hamburguesa {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .menu-hamburguesa {
-    display: block;
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    z-index: 1000;
-  }
-
-  .hamburger-button {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-
-  .mobile-menu {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0, 123, 255, 0.95);
-    padding: 2rem;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-    overflow-y: auto;
-  }
-
-  .mobile-menu.open {
-    display: block;
-  }
-
-  .mobile-menu ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .mobile-menu li {
-    padding: 1rem;
-    text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .mobile-menu li a {
-    color: white;
-    text-decoration: none;
-    font-size: 1.2rem;
-  }
-
-  .mobile-menu li:hover {
-    background-color: rgba(0, 86, 179, 0.7);
-  }
-}
-
-/* Estilos para dispositivos grandes (PC) */
-@media (min-width: 769px) {
-  .menu-hamburguesa {
-    display: none; /* Menú hamburguesa oculto en pantallas grandes */
-  }
-}
-
 @media (max-width: 768px) {
   .main-title {
     font-size: 2.5rem;
@@ -302,5 +233,29 @@
 
   .features-grid {
     grid-template-columns: 1fr;
+  }
+
+  @media (max-width: 768px) {
+    .menu-button {
+      display: block;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+    }
+
+    .nav-menu {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 50px;
+      right: 10px;
+      background: white;
+      padding: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-menu.open {
+      display: flex;
+    }
   }
 }

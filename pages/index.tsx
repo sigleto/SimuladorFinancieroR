@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
@@ -8,12 +8,6 @@ import styles from "../Estilos/index.module.css";
 
 const Home: React.FC = () => {
   const router = useRouter();
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
 
   const handleNavigation = (path: string) => router.push(path);
 
@@ -76,45 +70,6 @@ const Home: React.FC = () => {
           <h1 className={styles["main-title"]}>
             Bienvenido a Simuladores Financieros
           </h1>
-          <div className={styles["menu-hamburguesa"]}>
-            <button onClick={toggleMenu} className={styles["hamburger-button"]}>
-              ☰
-            </button>
-            <nav
-              className={`${styles["mobile-menu"]} ${
-                isMenuOpen ? styles["open"] : ""
-              }`}
-            >
-              <ul>
-                <li>
-                  <Link href="/" onClick={toggleMenu}>
-                    Inicio
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/Herramientas2" onClick={toggleMenu}>
-                    Herramientas
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/Herramientas" onClick={toggleMenu}>
-                    Simuladores
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/Informacion" onClick={toggleMenu}>
-                    Información
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/Contacto" onClick={toggleMenu}>
-                    Contacto
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-
           <p className={styles["subtitle"]}>
             La clave para optimizar tus decisiones financieras
           </p>
