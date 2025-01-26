@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styles from '../../Estilos/EstiloCalculadoras.module.css';
+import React, { useState, useRef } from "react";
+import styles from "../../Estilos/EstiloCalculadoras.module.css";
 
 interface TablaData {
   periodo: number;
@@ -11,9 +11,9 @@ interface TablaData {
 
 const CalculadoraPrestamos: React.FC = () => {
   const [formData, setFormData] = useState({
-    capital: '10000',
-    tasaInteres: '5',
-    periodo: '12',
+    capital: "10000",
+    tasaInteres: "5",
+    periodo: "12",
   });
   const [resultado, setResultado] = useState<{
     cuota: string;
@@ -22,6 +22,7 @@ const CalculadoraPrestamos: React.FC = () => {
     tabla: TablaData[];
   } | null>(null);
   const [mostrarTabla, setMostrarTabla] = useState(false);
+  const resultadoRef = useRef<HTMLDivElement | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -37,8 +38,15 @@ const CalculadoraPrestamos: React.FC = () => {
     const tasaInteresFloat = parseFloat(tasaInteres) / 100 / 12;
     const periodoFloat = parseInt(periodo, 10);
 
-    if (!capital || !tasaInteres || !periodo || capitalFloat <= 0 || tasaInteresFloat <= 0 || periodoFloat <= 0) {
-      alert('Por favor, completa todos los campos con valores válidos.');
+    if (
+      !capital ||
+      !tasaInteres ||
+      !periodo ||
+      capitalFloat <= 0 ||
+      tasaInteresFloat <= 0 ||
+      periodoFloat <= 0
+    ) {
+      alert("Por favor, completa todos los campos con valores válidos.");
       return;
     }
 
@@ -73,10 +81,16 @@ const CalculadoraPrestamos: React.FC = () => {
       totalPagado: totalPagado.toFixed(2),
       tabla,
     });
-    setMostrarTabla(false);
+
+    setTimeout(() => {
+      if (resultadoRef.current) {
+        resultadoRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
   };
 
   const toggleTabla = () => {
+    console.log("Cambiando estado de la tabla");
     setMostrarTabla(!mostrarTabla);
   };
 
@@ -84,68 +98,80 @@ const CalculadoraPrestamos: React.FC = () => {
     <div className={styles.container}>
       <h1 className={styles.title}>Calculadora de Préstamos</h1>
       <p className={styles.description}>
-        Utiliza esta herramienta para calcular las cuotas mensuales de tu préstamo y planificar tus pagos.
+        Utiliza esta herramienta para calcular las cuotas mensuales de tu
+        préstamo y planificar tus pagos.
       </p>
 
       <form className={styles.form}>
         <div className={styles.formGroup}>
-          <label htmlFor="capital" className={styles.label}>Capital</label>
-          <p className={styles.inputDescription}>Ingresa el monto total del préstamo que deseas solicitar.</p>
+          <label htmlFor="capital" className={styles.label}>
+            Capital
+          </label>
           <input
             id="capital"
             name="capital"
             type="number"
             value={formData.capital}
             onChange={handleInputChange}
-            placeholder="Ej: 10000"
             className={styles.input}
           />
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="tasaInteres" className={styles.label}>Tasa de Interés (%)</label>
-          <p className={styles.inputDescription}>Especifica la tasa de interés anual del préstamo.</p>
+          <label htmlFor="tasaInteres" className={styles.label}>
+            Tasa de Interés (%)
+          </label>
           <input
             id="tasaInteres"
             name="tasaInteres"
             type="number"
             value={formData.tasaInteres}
             onChange={handleInputChange}
-            placeholder="Ej: 5"
             className={styles.input}
           />
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="periodo" className={styles.label}>Período (meses)</label>
-          <p className={styles.inputDescription}>Indica la duración del préstamo en meses.</p>
+          <label htmlFor="periodo" className={styles.label}>
+            Período (meses)
+          </label>
           <input
             id="periodo"
             name="periodo"
             type="number"
             value={formData.periodo}
             onChange={handleInputChange}
-            placeholder="Ej: 12"
             className={styles.input}
           />
         </div>
 
-        <button type="button" className={styles.button} onClick={calcularResultados}>
+        <button
+          type="button"
+          className={styles.button}
+          onClick={calcularResultados}
+        >
           Calcular
         </button>
       </form>
 
       {resultado && (
-        <div className={styles.resultados}>
+        <div ref={resultadoRef} className={styles.resultados}>
           <h2 className={styles.enunciado}>Resultados del Préstamo</h2>
-          <p className={styles.labelText}>Cuota mensual aproximada: <span className={styles.resultText}>{resultado.cuota} €</span></p>
-          <p className={styles.labelText}>Total de intereses pagados: <span className={styles.resultText}>{resultado.totalIntereses} €</span></p>
-          <p className={styles.labelText}>Monto total pagado: <span className={styles.resultText}>{resultado.totalPagado} €</span></p>
-          
-          <button onClick={toggleTabla} className={styles.toggleButton}>
-            {mostrarTabla ? 'Ocultar Tabla de Amortización' : 'Mostrar Tabla de Amortización'}
-          </button>
+          <p>
+            Cuota mensual: <span>{resultado.cuota} €</span>
+          </p>
+          <p>
+            Total de intereses: <span>{resultado.totalIntereses} €</span>
+          </p>
+          <p>
+            Monto total pagado: <span>{resultado.totalPagado} €</span>
+          </p>
 
+          <button onClick={toggleTabla} className={styles.toggleButton}>
+            {mostrarTabla
+              ? "Ocultar Tabla de Amortización"
+              : "Mostrar Tabla de Amortización"}
+          </button>
           {mostrarTabla && resultado.tabla && (
             <div>
               <h3 className={styles.tablaTitle}>Tabla de amortización:</h3>
@@ -177,10 +203,6 @@ const CalculadoraPrestamos: React.FC = () => {
           )}
         </div>
       )}
-
-      <p className={styles.disclaimer}>
-        Nota: Esta calculadora proporciona una estimación. Las cuotas reales pueden variar según las condiciones específicas del préstamo.
-      </p>
     </div>
   );
 };

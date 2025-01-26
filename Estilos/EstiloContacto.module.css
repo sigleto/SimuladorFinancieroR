@@ -1,0 +1,79 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  margin-top: 50px;
+}
+
+.titulo {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  margin-right: 0.5rem;
+  color: #4a90e2;
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+.parrafo {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.emailButton {
+  display: inline-block;
+  background-color: #4a90e2;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.emailButton:hover {
+  background-color: #3a7bc8;
+}
+
+.emailText {
+  margin-top: 1rem;
+  color: #888;
+}
+
+.backButton {
+  margin-top: 2rem;
+  padding: 0.8rem 1.5rem;
+  background-color: #218838;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.backButton:hover {
+  background-color: #555;
+}
+
+.buttonIcon {
+  margin-right: 0.5rem;
+}

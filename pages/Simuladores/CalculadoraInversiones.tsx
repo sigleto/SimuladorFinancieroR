@@ -1,32 +1,28 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import styles from '../../Estilos/EstiloCalculadoras.module.css';
-
-type DataTableEntry = {
-  periodo: number;
-  saldo: string;
-  rendimientoPeriodo: string;
-  rendimientoAcumulado: string;
-};
+import React, { useState, useRef } from "react";
+import { useRouter } from "next/router";
+import styles from "../../Estilos/EstiloCalculadoras.module.css";
 
 const CalculadoraInversionesUnificada: React.FC = () => {
   const [formData, setFormData] = useState({
-    principal: '',
-    rate: '',
-    time: '',
-    contributions: '0',
-    tipoInteres: 'anual',
-    unidadPeriodo: 'años',
+    principal: "",
+    rate: "",
+    time: "",
+    contributions: "0",
+    tipoInteres: "anual",
+    unidadPeriodo: "años",
   });
 
   const [result, setResult] = useState<string | null>(null);
-  const [totalIntereses, setTotalIntereses] = useState<string>('');
-  const [rendimientoAcumulado, setRendimientoAcumulado] = useState<string>('');
+  const [totalIntereses, setTotalIntereses] = useState<string>("");
+  const [rendimientoAcumulado, setRendimientoAcumulado] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const resultRef = useRef<HTMLDivElement>(null); // Referencia a la sección de resultados
   const router = useRouter();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -35,9 +31,10 @@ const CalculadoraInversionesUnificada: React.FC = () => {
   };
 
   const calcularInversion = () => {
-    const { principal, rate, time, contributions, tipoInteres, unidadPeriodo } = formData;
+    const { principal, rate, time, contributions, tipoInteres, unidadPeriodo } =
+      formData;
     if (!principal || !rate || !time || !contributions) {
-      alert('Por favor, completa todos los campos.');
+      alert("Por favor, completa todos los campos.");
       return;
     }
 
@@ -51,14 +48,15 @@ const CalculadoraInversionesUnificada: React.FC = () => {
     let totalPagado = principalAmount;
     let rendimientoAcumulado = 0;
 
-    if (tipoInteres === 'anual' && unidadPeriodo === 'años') {
+    if (tipoInteres === "anual" && unidadPeriodo === "años") {
       for (let i = 0; i < timePeriod; i++) {
         const interest = totalPagado * ratePercentage;
         totalIntereses += interest;
         totalPagado += annualContributions + interest;
       }
     } else {
-      const totalMonths = unidadPeriodo === 'años' ? timePeriod * 12 : timePeriod;
+      const totalMonths =
+        unidadPeriodo === "años" ? timePeriod * 12 : timePeriod;
       const monthlyRate = ratePercentage / 12;
       for (let i = 0; i < totalMonths; i++) {
         const interest = totalPagado * monthlyRate;
@@ -72,59 +70,28 @@ const CalculadoraInversionesUnificada: React.FC = () => {
     setTotalIntereses(totalIntereses.toFixed(2));
     setRendimientoAcumulado(rendimientoAcumulado.toFixed(2));
     setIsLoading(false);
-  };
 
-  const AccesoTabla = () => {
-    const { principal, rate, time, contributions, tipoInteres, unidadPeriodo } = formData;
-    if (!principal || !rate || !time || !contributions) return;
-
-    const p = parseFloat(principal);
-    const r = parseFloat(rate);
-    const t = parseFloat(time);
-    const c = parseFloat(contributions);
-
-    const n = unidadPeriodo === 'años' ? t : t;
-    const periodicRate = tipoInteres === 'anual' ? r / 100 : Math.pow(1 + r / 100, 12) - 1;
-
-    let saldoPendiente = p;
-    let rendimientoTotal = 0;
-    const data: DataTableEntry[] = [];
-
-    for (let i = 1; i <= n; i++) {
-      const interesPeriodo = saldoPendiente * (unidadPeriodo === 'años' ? periodicRate : periodicRate / 12);
-      const contribucionPeriodo = unidadPeriodo === 'años' ? c : c / 12;
-      const valorFuturo = saldoPendiente + interesPeriodo + contribucionPeriodo;
-      const rendimientoPeriodo = valorFuturo - saldoPendiente - contribucionPeriodo;
-
-      data.push({
-        periodo: i,
-        saldo: valorFuturo.toFixed(2),
-        rendimientoPeriodo: rendimientoPeriodo.toFixed(2),
-        rendimientoAcumulado: (rendimientoTotal + rendimientoPeriodo).toFixed(2),
-      });
-
-      rendimientoTotal += rendimientoPeriodo;
-      saldoPendiente = valorFuturo;
-    }
-
-    router.push({
-      pathname: 'resultados/TablaInversion',
-      query: { data: JSON.stringify(data), unidadPeriodo, rendimientoAcumulado, totalIntereses },
-    });
+    // Desplazamiento automático a los resultados
+    setTimeout(() => {
+      resultRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 200);
   };
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Calculadora de Inversiones</h1>
       <p className={styles.description}>
-        Utilice esta calculadora para planificar sus inversiones a largo plazo. 
-        Ingrese su capital inicial, tasa de interés, duración de la inversión y contribuciones anuales 
-        para obtener una proyección detallada de su inversión.
+        Utilice esta calculadora para planificar sus inversiones a largo plazo.
+        Ingrese su capital inicial, tasa de interés, duración de la inversión y
+        contribuciones anuales para obtener una proyección detallada de su
+        inversión.
       </p>
-      
+
       <form className={styles.form}>
         <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="principal">Capital Inicial ($)</label>
+          <label className={styles.label} htmlFor="principal">
+            Capital Inicial ($)
+          </label>
           <input
             className={styles.input}
             id="principal"
@@ -137,7 +104,9 @@ const CalculadoraInversionesUnificada: React.FC = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="rate">Tasa de Interés Anual (%)</label>
+          <label className={styles.label} htmlFor="rate">
+            Tasa de Interés Anual (%)
+          </label>
           <input
             className={styles.input}
             id="rate"
@@ -150,7 +119,9 @@ const CalculadoraInversionesUnificada: React.FC = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="time">Duración de la Inversión</label>
+          <label className={styles.label} htmlFor="time">
+            Duración de la Inversión
+          </label>
           <div className={styles.inputGroup}>
             <input
               className={styles.input}
@@ -174,7 +145,9 @@ const CalculadoraInversionesUnificada: React.FC = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="contributions">Contribuciones Anuales ($)</label>
+          <label className={styles.label} htmlFor="contributions">
+            Contribuciones Anuales ($)
+          </label>
           <input
             className={styles.input}
             id="contributions"
@@ -187,7 +160,9 @@ const CalculadoraInversionesUnificada: React.FC = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="tipoInteres">Tipo de Interés</label>
+          <label className={styles.label} htmlFor="tipoInteres">
+            Tipo de Interés
+          </label>
           <select
             className={styles.input}
             id="tipoInteres"
@@ -200,27 +175,40 @@ const CalculadoraInversionesUnificada: React.FC = () => {
           </select>
         </div>
 
-        <button type="button" onClick={calcularInversion} className={styles.button}>
+        <button
+          type="button"
+          onClick={calcularInversion}
+          className={styles.button}
+        >
           Calcular Inversión
-        </button>
-        <button type="button" onClick={AccesoTabla} className={styles.toggleButton}>
-          Ver Tabla Detallada
         </button>
       </form>
 
       {isLoading ? (
         <p className={styles.loading}>Calculando resultados...</p>
       ) : result ? (
-        <div className={styles.resultados}>
+        <div ref={resultRef} className={styles.resultados}>
           <h2 className={styles.enunciado}>Resultados de la Inversión</h2>
-          <p><span className={styles.labelText}>Valor Futuro:</span> <span className={styles.resultText}>${result}</span></p>
-          <p><span className={styles.labelText}>Rendimiento Acumulado:</span> <span className={styles.resultText}>${rendimientoAcumulado}</span></p>
-          <p><span className={styles.labelText}>Total de Intereses Ganados:</span> <span className={styles.resultText}>${totalIntereses}</span></p>
+          <p>
+            <span className={styles.labelText}>Valor Futuro:</span>{" "}
+            <span className={styles.resultText}>${result}</span>
+          </p>
+          <p>
+            <span className={styles.labelText}>Rendimiento Acumulado:</span>{" "}
+            <span className={styles.resultText}>${rendimientoAcumulado}</span>
+          </p>
+          <p>
+            <span className={styles.labelText}>
+              Total de Intereses Ganados:
+            </span>{" "}
+            <span className={styles.resultText}>${totalIntereses}</span>
+          </p>
         </div>
       ) : null}
 
       <p className={styles.disclaimer}>
-        Esta calculadora es solo para fines informativos. Consulte a un asesor financiero para obtener consejos personalizados.
+        Esta calculadora es solo para fines informativos. Consulte a un asesor
+        financiero para obtener consejos personalizados.
       </p>
     </div>
   );
