@@ -1,47 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-    <!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
-    
-    <url>
-        <loc>https://simuladorfinanciero.com/</loc>
-        <lastmod>2025-01-10T07:10:13+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://simuladorfinanciero.com/Herramientas</loc>
-        <lastmod>2025-01-10T07:10:13+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://simuladorfinanciero.com/Simuladores/CalculadoraPrestamo</loc>
-        <lastmod>2025-01-10T07:10:13+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://simuladorfinanciero.com/Simuladores/CalculadoraAhorros</loc>
-        <lastmod>2025-01-10T07:10:13+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://simuladorfinanciero.com/Simuladores/CalculadoraInversiones</loc>
-        <lastmod>2025-01-10T07:10:13+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://simuladorfinanciero.com/Simuladores/ConversorDivisas</loc>
-        <lastmod>2025-01-10T07:10:13+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://simuladorfinanciero.com/Simuladores/RentabilidadAcciones</loc>
-        <lastmod>2025-01-10T07:10:13+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://simuladorfinanciero.com/Simuladores/SimuladorJubilacion</loc>
-        <lastmod>2025-01-10T07:10:13+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://simuladorfinanciero.com/Simuladores/RentasInmediatas</loc>
-        <lastmod>2025-01-10T07:10:13+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://simuladorfinanciero.com/Simuladores/DiasJubilacion</loc>
-        <lastmod>2025-01-10T07:10:13+00:00</lastmod>
-    </url>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://www.simuladorfinanciero.com/</loc>
+  <lastmod>2025-01-27T18:47:23+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://www.simuladorfinanciero.com/Herramientas2</loc>
+  <lastmod>2025-01-27T18:47:23+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.simuladorfinanciero.com/Herramientas</loc>
+  <lastmod>2025-01-27T18:47:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.simuladorfinanciero.com/Informacion</loc>
+  <lastmod>2025-01-27T18:47:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.simuladorfinanciero.com/Contacto</loc>
+  <lastmod>2025-01-27T18:47:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.simuladorfinanciero.com/Simuladores/CalculadoraAhorros</loc>
+  <lastmod>2025-01-27T18:47:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.simuladorfinanciero.com/Simuladores/CalculadoraPrestamo</loc>
+  <lastmod>2025-01-27T18:47:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.simuladorfinanciero.com/Simuladores/CalculadoraInversiones</loc>
+  <lastmod>2025-01-27T18:47:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.simuladorfinanciero.com/Simuladores/RentasInmediatas</loc>
+  <lastmod>2025-01-27T18:47:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.simuladorfinanciero.com/Simuladores/SimuladorJubilacion</loc>
+  <lastmod>2025-01-27T18:47:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.simuladorfinanciero.com/PoliticaPrivacidad</loc>
+  <lastmod>2025-01-27T18:47:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.simuladorfinanciero.com/DescargoResponsabilidad</loc>
+  <lastmod>2025-01-27T18:47:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+
+
 </urlset>
