@@ -2,8 +2,16 @@ import React, { useState, useRef } from "react";
 import { useRouter } from "next/router";
 import styles from "../../Estilos/EstiloCalculadoras.module.css";
 
+type FormDataKeys =
+  | "principal"
+  | "rate"
+  | "time"
+  | "contributions"
+  | "tipoInteres"
+  | "unidadPeriodo";
+
 const CalculadoraInversionesUnificada: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Record<FormDataKeys, string>>({
     principal: "",
     rate: "",
     time: "",
@@ -16,18 +24,73 @@ const CalculadoraInversionesUnificada: React.FC = () => {
   const [totalIntereses, setTotalIntereses] = useState<string>("");
   const [rendimientoAcumulado, setRendimientoAcumulado] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [mostrarResultados, setMostrarResultados] = useState(false);
+  const [pasoActual, setPasoActual] = useState(0);
 
-  const resultRef = useRef<HTMLDivElement>(null); // Referencia a la sección de resultados
+  const resultRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  const preguntas: {
+    label: string;
+    name: FormDataKeys;
+    placeholder: string;
+    descripcion?: string;
+    type?: "select";
+    options?: { value: string; label: string }[];
+  }[] = [
+    {
+      label: "¿Cuál es tu capital inicial ($)?",
+      name: "principal",
+      placeholder: "Ej: 10000",
+      descripcion: "Define la cantidad inicial que invertirás.",
+    },
+    {
+      label: "¿Cuál es la tasa de interés anual esperada (%)?",
+      name: "rate",
+      placeholder: "Ej: 5",
+      descripcion: "Indica la tasa de interés que esperas obtener.",
+    },
+    {
+      label: "¿Cuánto tiempo deseas invertir?",
+      name: "time",
+      placeholder: "Ej: 5",
+      descripcion: "Especifica el plazo en años o meses para tu inversión.",
+    },
+    {
+      label: "¿En qué unidad de tiempo deseas invertir?",
+      name: "unidadPeriodo",
+      placeholder: "",
+      descripcion: "Selecciona si el tiempo es en años o meses.",
+      type: "select",
+      options: [
+        { value: "años", label: "Años" },
+        { value: "meses", label: "Meses" },
+      ],
+    },
+    {
+      label: "¿Cuánto deseas contribuir anualmente (opcional) ($)?",
+      name: "contributions",
+      placeholder: "Ej: 1000",
+      descripcion: "Define las contribuciones anuales adicionales.",
+    },
+    {
+      label: "¿El interés es anual o mensual?",
+      name: "tipoInteres",
+      placeholder: "",
+      descripcion: "Selecciona el tipo de interés aplicado.",
+      type: "select",
+      options: [
+        { value: "anual", label: "Anual" },
+        { value: "mensual", label: "Mensual" },
+      ],
+    },
+  ];
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name as FormDataKeys]: value }));
   };
 
   const calcularInversion = () => {
@@ -70,11 +133,25 @@ const CalculadoraInversionesUnificada: React.FC = () => {
     setTotalIntereses(totalIntereses.toFixed(2));
     setRendimientoAcumulado(rendimientoAcumulado.toFixed(2));
     setIsLoading(false);
+    setMostrarResultados(true);
 
-    // Desplazamiento automático a los resultados
     setTimeout(() => {
       resultRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 200);
+  };
+
+  const avanzarPaso = () => {
+    if (pasoActual < preguntas.length - 1) {
+      setPasoActual(pasoActual + 1);
+    } else {
+      calcularInversion();
+    }
+  };
+
+  const retrocederPaso = () => {
+    if (pasoActual > 0) {
+      setPasoActual(pasoActual - 1);
+    }
   };
 
   return (
@@ -87,106 +164,58 @@ const CalculadoraInversionesUnificada: React.FC = () => {
         inversión.
       </p>
 
-      <form className={styles.form}>
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="principal">
-            Capital Inicial ($)
-          </label>
-          <input
-            className={styles.input}
-            id="principal"
-            name="principal"
-            type="number"
-            value={formData.principal}
-            onChange={handleInputChange}
-            placeholder="Ej: 10000"
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="rate">
-            Tasa de Interés Anual (%)
-          </label>
-          <input
-            className={styles.input}
-            id="rate"
-            name="rate"
-            type="number"
-            value={formData.rate}
-            onChange={handleInputChange}
-            placeholder="Ej: 5"
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="time">
-            Duración de la Inversión
-          </label>
-          <div className={styles.inputGroup}>
-            <input
-              className={styles.input}
-              id="time"
-              name="time"
-              type="number"
-              value={formData.time}
-              onChange={handleInputChange}
-              placeholder="Ej: 5"
-            />
-            <select
-              className={styles.input}
-              name="unidadPeriodo"
-              value={formData.unidadPeriodo}
-              onChange={handleInputChange}
+      {!mostrarResultados ? (
+        <div className={styles.form}>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>
+              {preguntas[pasoActual].label}
+            </label>
+            {preguntas[pasoActual].descripcion && (
+              <p className={styles.inputDescription}>
+                {preguntas[pasoActual].descripcion}
+              </p>
+            )}
+            {preguntas[pasoActual].type === "select" ? (
+              <select
+                name={preguntas[pasoActual].name}
+                value={formData[preguntas[pasoActual].name]}
+                onChange={handleInputChange}
+                className={styles.input}
+              >
+                {preguntas[pasoActual].options?.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                type="number"
+                name={preguntas[pasoActual].name}
+                value={formData[preguntas[pasoActual].name]}
+                onChange={handleInputChange}
+                placeholder={preguntas[pasoActual].placeholder}
+                className={styles.input}
+              />
+            )}
+          </div>
+          <div className={styles.contButton}>
+            <button
+              onClick={retrocederPaso}
+              disabled={pasoActual === 0}
+              className={`${styles.button} ${styles.secondary}`}
             >
-              <option value="años">Años</option>
-              <option value="meses">Meses</option>
-            </select>
+              Atrás
+            </button>
+            <button
+              onClick={avanzarPaso}
+              className={`${styles.button} ${styles.primary}`}
+            >
+              {pasoActual === preguntas.length - 1 ? "Calcular" : "Siguiente"}
+            </button>
           </div>
         </div>
-
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="contributions">
-            Contribuciones Anuales ($)
-          </label>
-          <input
-            className={styles.input}
-            id="contributions"
-            name="contributions"
-            type="number"
-            value={formData.contributions}
-            onChange={handleInputChange}
-            placeholder="Ej: 1000"
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="tipoInteres">
-            Tipo de Interés
-          </label>
-          <select
-            className={styles.input}
-            id="tipoInteres"
-            name="tipoInteres"
-            value={formData.tipoInteres}
-            onChange={handleInputChange}
-          >
-            <option value="anual">Anual</option>
-            <option value="mensual">Mensual</option>
-          </select>
-        </div>
-
-        <button
-          type="button"
-          onClick={calcularInversion}
-          className={styles.button}
-        >
-          Calcular Inversión
-        </button>
-      </form>
-
-      {isLoading ? (
-        <p className={styles.loading}>Calculando resultados...</p>
-      ) : result ? (
+      ) : (
         <div ref={resultRef} className={styles.resultados}>
           <h2 className={styles.enunciado}>Resultados de la Inversión</h2>
           <p>
@@ -203,8 +232,25 @@ const CalculadoraInversionesUnificada: React.FC = () => {
             </span>{" "}
             <span className={styles.resultText}>${totalIntereses}</span>
           </p>
+          <button
+            onClick={() => {
+              setMostrarResultados(false);
+              setPasoActual(0);
+              setFormData({
+                principal: "",
+                rate: "",
+                time: "",
+                contributions: "0",
+                tipoInteres: "anual",
+                unidadPeriodo: "años",
+              });
+            }}
+            className={`${styles.button} ${styles.secondary}`}
+          >
+            Volver a empezar
+          </button>
         </div>
-      ) : null}
+      )}
 
       <p className={styles.disclaimer}>
         Esta calculadora es solo para fines informativos. Consulte a un asesor

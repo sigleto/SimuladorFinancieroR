@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import axios from 'axios';
-import styles from '../../Estilos/EstiloCalculadoras.module.css';
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
+import styles from "../../Estilos/EstiloTipoCambio.module.css";
 
 const RentabilidadAcciones: React.FC = () => {
   const [formData, setFormData] = useState({
-    symbol: '',
-    cantidad: '',
-    precioCompra: '',
+    symbol: "",
+    cantidad: "",
+    precioCompra: "",
   });
   const [resultado, setResultado] = useState<string | null>(null);
   const [cotizacionActual, setCotizacionActual] = useState<number | null>(null);
@@ -17,9 +17,9 @@ const RentabilidadAcciones: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -35,34 +35,38 @@ const RentabilidadAcciones: React.FC = () => {
         setCotizacionActual(precioActual);
 
         const cantidadAccion = parseInt(formData.cantidad);
-        const inversionTotal = cantidadAccion * parseFloat(formData.precioCompra);
+        const inversionTotal =
+          cantidadAccion * parseFloat(formData.precioCompra);
         const valorActual = cantidadAccion * precioActual;
         const rentabilidad = valorActual - inversionTotal;
         setResultado(rentabilidad.toFixed(2).toString());
         setError(null);
       } else {
-        setError('El símbolo de la acción no existe.');
+        setError("El símbolo de la acción no existe.");
       }
     } catch (error) {
-      console.error('Error en la solicitud de datos de la acción:', error);
-      setError('Error al obtener datos de la acción');
+      console.error("Error en la solicitud de datos de la acción:", error);
+      setError("Error al obtener datos de la acción");
     }
   };
 
   const volver = () => {
-    router.push('/');
+    router.push("/");
   };
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Simulador de Rentabilidad de Acciones</h1>
       <p className={styles.description}>
-        Calcula la rentabilidad estimada de tus inversiones en acciones utilizando datos de mercado en tiempo real.
+        Calcula la rentabilidad estimada de tus inversiones en acciones
+        utilizando datos de mercado en tiempo real.
       </p>
 
       <form className={styles.form}>
         <div className={styles.formGroup}>
-          <label htmlFor="symbol" className={styles.label}>Símbolo de la Acción</label>
+          <label htmlFor="symbol" className={styles.label}>
+            Símbolo de la Acción
+          </label>
           <input
             id="symbol"
             name="symbol"
@@ -75,7 +79,9 @@ const RentabilidadAcciones: React.FC = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="cantidad" className={styles.label}>Cantidad de Acciones</label>
+          <label htmlFor="cantidad" className={styles.label}>
+            Cantidad de Acciones
+          </label>
           <input
             id="cantidad"
             name="cantidad"
@@ -88,7 +94,9 @@ const RentabilidadAcciones: React.FC = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="precioCompra" className={styles.label}>Precio de Compra por Acción</label>
+          <label htmlFor="precioCompra" className={styles.label}>
+            Precio de Compra por Acción
+          </label>
           <input
             id="precioCompra"
             name="precioCompra"
@@ -100,13 +108,17 @@ const RentabilidadAcciones: React.FC = () => {
           />
         </div>
 
-        <button type="button" className={styles.button} onClick={calcularRentabilidad}>
+        <button
+          type="button"
+          className={styles.button}
+          onClick={calcularRentabilidad}
+        >
           Calcular Rentabilidad
         </button>
       </form>
 
       {error && <p className={styles.errorText}>{error}</p>}
-      
+
       {resultado !== null && cotizacionActual !== null && (
         <div className={styles.resultBox}>
           <h2 className={styles.resultTitle}>Resultados</h2>
@@ -120,7 +132,8 @@ const RentabilidadAcciones: React.FC = () => {
       </button>
 
       <p className={styles.disclaimer}>
-        Nota: Los cálculos se basan en datos de mercado en tiempo real. La rentabilidad pasada no garantiza resultados futuros.
+        Nota: Los cálculos se basan en datos de mercado en tiempo real. La
+        rentabilidad pasada no garantiza resultados futuros.
       </p>
     </div>
   );

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import styles from '../../Estilos/EstiloCalculadoras.module.css';
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import styles from "../../Estilos/EstiloTipoCambio.module.css";
 
 interface Moneda {
   codigo: string;
@@ -8,66 +8,68 @@ interface Moneda {
 }
 
 const monedas: Moneda[] = [
-  { codigo: 'USD', nombre: 'Dólar estadounidense' },
-  { codigo: 'EUR', nombre: 'Euro' },
-  { codigo: 'AUD', nombre: 'Dólar australiano' },
-  { codigo: 'ARS', nombre: 'Peso argentino' },
-  { codigo: 'UYU', nombre: 'Peso uruguayo' },
-  { codigo: 'CLP', nombre: 'Peso chileno' },
-  { codigo: 'COP', nombre: 'Peso colombiano' },
-  { codigo: 'PEN', nombre: 'Sol peruano' },
-  { codigo: 'PYG', nombre: 'Guaraní paraguayo' },
-  { codigo: 'CRC', nombre: 'Colón costarricense' },
-  { codigo: 'MXN', nombre: 'Peso mexicano' },
-  { codigo: 'BGN', nombre: 'Lev búlgaro' },
-  { codigo: 'BRL', nombre: 'Real brasileño' },
-  { codigo: 'CAD', nombre: 'Dólar canadiense' },
-  { codigo: 'CHF', nombre: 'Franco suizo' },
-  { codigo: 'CNY', nombre: 'Yuan chino' },
-  { codigo: 'CZK', nombre: 'Corona checa' },
-  { codigo: 'DKK', nombre: 'Corona danesa' },
-  { codigo: 'GBP', nombre: 'Libra esterlina' },
-  { codigo: 'HKD', nombre: 'Dólar de Hong Kong' },
-  { codigo: 'HRK', nombre: 'Kuna croata' },
-  { codigo: 'HUF', nombre: 'Florín húngaro' },
-  { codigo: 'IDR', nombre: 'Rupia indonesia' },
-  { codigo: 'ILS', nombre: 'Nuevo séquel israelí' },
-  { codigo: 'INR', nombre: 'Rupia india' },
-  { codigo: 'ISK', nombre: 'Corona islandesa' },
-  { codigo: 'JPY', nombre: 'Yen japonés' },
-  { codigo: 'KRW', nombre: 'Won surcoreano' },
-  { codigo: 'MYR', nombre: 'Ringgit malasio' },
-  { codigo: 'NOK', nombre: 'Corona noruega' },
-  { codigo: 'NZD', nombre: 'Dólar neozelandés' },
-  { codigo: 'PHP', nombre: 'Peso filipino' },
-  { codigo: 'PLN', nombre: 'Złoty polaco' },
-  { codigo: 'RON', nombre: 'Leu rumano' },
-  { codigo: 'RUB', nombre: 'Rublo ruso' },
-  { codigo: 'SEK', nombre: 'Corona sueca' },
-  { codigo: 'SGD', nombre: 'Dólar singapurense' },
-  { codigo: 'THB', nombre: 'Baht tailandés' },
-  { codigo: 'TRY', nombre: 'Lira turca' },
-  { codigo: 'ZAR', nombre: 'Rand sudafricano' },
+  { codigo: "USD", nombre: "Dólar estadounidense" },
+  { codigo: "EUR", nombre: "Euro" },
+  { codigo: "AUD", nombre: "Dólar australiano" },
+  { codigo: "ARS", nombre: "Peso argentino" },
+  { codigo: "UYU", nombre: "Peso uruguayo" },
+  { codigo: "CLP", nombre: "Peso chileno" },
+  { codigo: "COP", nombre: "Peso colombiano" },
+  { codigo: "PEN", nombre: "Sol peruano" },
+  { codigo: "PYG", nombre: "Guaraní paraguayo" },
+  { codigo: "CRC", nombre: "Colón costarricense" },
+  { codigo: "MXN", nombre: "Peso mexicano" },
+  { codigo: "BGN", nombre: "Lev búlgaro" },
+  { codigo: "BRL", nombre: "Real brasileño" },
+  { codigo: "CAD", nombre: "Dólar canadiense" },
+  { codigo: "CHF", nombre: "Franco suizo" },
+  { codigo: "CNY", nombre: "Yuan chino" },
+  { codigo: "CZK", nombre: "Corona checa" },
+  { codigo: "DKK", nombre: "Corona danesa" },
+  { codigo: "GBP", nombre: "Libra esterlina" },
+  { codigo: "HKD", nombre: "Dólar de Hong Kong" },
+  { codigo: "HRK", nombre: "Kuna croata" },
+  { codigo: "HUF", nombre: "Florín húngaro" },
+  { codigo: "IDR", nombre: "Rupia indonesia" },
+  { codigo: "ILS", nombre: "Nuevo séquel israelí" },
+  { codigo: "INR", nombre: "Rupia india" },
+  { codigo: "ISK", nombre: "Corona islandesa" },
+  { codigo: "JPY", nombre: "Yen japonés" },
+  { codigo: "KRW", nombre: "Won surcoreano" },
+  { codigo: "MYR", nombre: "Ringgit malasio" },
+  { codigo: "NOK", nombre: "Corona noruega" },
+  { codigo: "NZD", nombre: "Dólar neozelandés" },
+  { codigo: "PHP", nombre: "Peso filipino" },
+  { codigo: "PLN", nombre: "Złoty polaco" },
+  { codigo: "RON", nombre: "Leu rumano" },
+  { codigo: "RUB", nombre: "Rublo ruso" },
+  { codigo: "SEK", nombre: "Corona sueca" },
+  { codigo: "SGD", nombre: "Dólar singapurense" },
+  { codigo: "THB", nombre: "Baht tailandés" },
+  { codigo: "TRY", nombre: "Lira turca" },
+  { codigo: "ZAR", nombre: "Rand sudafricano" },
 ];
 
 const ConversorDivisas: React.FC = () => {
   const [formData, setFormData] = useState({
-    cantidadIntroducida: '',
-    monedaOrigen: 'USD',
-    monedaDestino: 'EUR',
+    cantidadIntroducida: "",
+    monedaOrigen: "USD",
+    monedaDestino: "EUR",
   });
-  const [tipoCambio, setTipoCambio] = useState<string>('');
-  const [resultado, setResultado] = useState<string>('');
-  const [error, setError] = useState<string>('');
-  const [mensajeEstado, setMensajeEstado] = useState<string>('');
+  const [tipoCambio, setTipoCambio] = useState<string>("");
+  const [resultado, setResultado] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [mensajeEstado, setMensajeEstado] = useState<string>("");
 
   const router = useRouter();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -79,62 +81,74 @@ const ConversorDivisas: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        if (data && data.conversion_rates && data.conversion_rates[formData.monedaDestino]) {
+        if (
+          data &&
+          data.conversion_rates &&
+          data.conversion_rates[formData.monedaDestino]
+        ) {
           const tasaCambio = data.conversion_rates[formData.monedaDestino];
           setTipoCambio(tasaCambio.toString());
-          setMensajeEstado(`Cantidad introducida: ${formData.cantidadIntroducida} ${formData.monedaOrigen}`);
-          setError('');
+          setMensajeEstado(
+            `Cantidad introducida: ${formData.cantidadIntroducida} ${formData.monedaOrigen}`
+          );
+          setError("");
         } else {
-          setError('Error: La moneda de origen o destino no está disponible.');
+          setError("Error: La moneda de origen o destino no está disponible.");
         }
       } else {
-        setError('Error al obtener el tipo de cambio');
+        setError("Error al obtener el tipo de cambio");
       }
     } catch (error) {
-      setError('Error en la solicitud de tipo de cambio');
+      setError("Error en la solicitud de tipo de cambio");
     }
   };
 
   const convertirDivisas = () => {
-    if (tipoCambio === '') {
-      setError('Primero debes obtener el tipo de cambio');
+    if (tipoCambio === "") {
+      setError("Primero debes obtener el tipo de cambio");
       return;
     }
 
-    setError('');
+    setError("");
     const cantidadFloat = parseFloat(formData.cantidadIntroducida);
     const resultadoCalculado = cantidadFloat * parseFloat(tipoCambio);
     setResultado(resultadoCalculado.toFixed(2).toString());
   };
 
   const volver = () => {
-    router.push('/');
+    router.push("/");
   };
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Conversor de Divisas</h1>
       <p className={styles.description}>
-        Convierte fácilmente entre múltiples monedas utilizando tasas de cambio en tiempo real.
+        Convierte fácilmente entre múltiples monedas utilizando tasas de cambio
+        en tiempo real. Ingresa la cantidad, selecciona las monedas y obtén el
+        resultado al instante.
       </p>
 
       <form className={styles.form}>
         <div className={styles.formGroup}>
-          <label htmlFor="cantidadIntroducida" className={styles.label}>Cantidad a convertir</label>
+          <label htmlFor="cantidadIntroducida" className={styles.label}>
+            Cantidad a convertir
+          </label>
           <input
             id="cantidadIntroducida"
             name="cantidadIntroducida"
             type="number"
             value={formData.cantidadIntroducida}
             onChange={handleInputChange}
-            placeholder="Ingrese la cantidad"
+            placeholder="Ej: 100"
             className={styles.input}
           />
         </div>
 
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label htmlFor="monedaOrigen" className={styles.label}>Moneda de origen</label>
+            <label htmlFor="monedaOrigen" className={styles.label}>
+              Moneda de origen
+            </label>
             <select
               id="monedaOrigen"
               name="monedaOrigen"
@@ -144,14 +158,16 @@ const ConversorDivisas: React.FC = () => {
             >
               {monedas.map((moneda) => (
                 <option key={moneda.codigo} value={moneda.codigo}>
-                  {moneda.nombre}
+                  {moneda.nombre} ({moneda.codigo})
                 </option>
               ))}
             </select>
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="monedaDestino" className={styles.label}>Moneda de destino</label>
+            <label htmlFor="monedaDestino" className={styles.label}>
+              Moneda de destino
+            </label>
             <select
               id="monedaDestino"
               name="monedaDestino"
@@ -161,34 +177,48 @@ const ConversorDivisas: React.FC = () => {
             >
               {monedas.map((moneda) => (
                 <option key={moneda.codigo} value={moneda.codigo}>
-                  {moneda.nombre}
+                  {moneda.nombre} ({moneda.codigo})
                 </option>
               ))}
             </select>
           </div>
         </div>
 
-        <button type="button" className={styles.button} onClick={obtenerTipoCambio}>
-          Obtener Tipo de Cambio
-        </button>
+        <div className={styles.buttonGroup}>
+          <button
+            type="button"
+            className={styles.button}
+            onClick={obtenerTipoCambio}
+          >
+            Obtener Tipo de Cambio
+          </button>
+          <button
+            type="button"
+            className={styles.button}
+            onClick={convertirDivisas}
+          >
+            Convertir
+          </button>
+        </div>
 
         {tipoCambio && (
-          <div className={styles.resultBox}>
-            <p>{mensajeEstado}</p>
-            <p>Tipo de Cambio: 1 {formData.monedaOrigen} = {tipoCambio} {formData.monedaDestino}</p>
+          <div className={styles.resultados}>
+            <p className={styles.resultText}>{mensajeEstado}</p>
+            <p className={styles.resultText}>
+              Tipo de Cambio: 1 {formData.monedaOrigen} = {tipoCambio}{" "}
+              {formData.monedaDestino}
+            </p>
           </div>
         )}
 
-        {error && <p className={styles.errorText}>{error}</p>}
-
-        <button type="button" className={styles.button} onClick={convertirDivisas}>
-          Convertir
-        </button>
+        {error && <p className={styles.error}>{error}</p>}
 
         {resultado && (
-          <p className={styles.resultText}>
-            Resultado: {resultado} {formData.monedaDestino}
-          </p>
+          <div className={styles.resultados}>
+            <p className={styles.resultText}>
+              Resultado: {resultado} {formData.monedaDestino}
+            </p>
+          </div>
         )}
       </form>
 
@@ -197,7 +227,8 @@ const ConversorDivisas: React.FC = () => {
       </button>
 
       <p className={styles.disclaimer}>
-        Nota: Las tasas de cambio se actualizan en tiempo real. Los resultados son aproximados y pueden variar ligeramente.
+        Nota: Las tasas de cambio se actualizan en tiempo real. Los resultados
+        son aproximados y pueden variar ligeramente.
       </p>
     </div>
   );

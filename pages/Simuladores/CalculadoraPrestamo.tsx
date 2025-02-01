@@ -9,12 +9,15 @@ interface TablaData {
   saldoPendiente: string;
 }
 
+type FormDataKeys = "capital" | "tasaInteres" | "periodo";
+
 const CalculadoraPrestamos: React.FC = () => {
-  const [formData, setFormData] = useState({
-    capital: "10000",
-    tasaInteres: "5",
-    periodo: "12",
+  const [formData, setFormData] = useState<Record<FormDataKeys, string>>({
+    capital: "",
+    tasaInteres: "",
+    periodo: "",
   });
+
   const [resultado, setResultado] = useState<{
     cuota: string;
     totalIntereses: string;
@@ -22,14 +25,40 @@ const CalculadoraPrestamos: React.FC = () => {
     tabla: TablaData[];
   } | null>(null);
   const [mostrarTabla, setMostrarTabla] = useState(false);
+  const [mostrarResultados, setMostrarResultados] = useState(false);
+  const [pasoActual, setPasoActual] = useState(0);
+
   const resultadoRef = useRef<HTMLDivElement | null>(null);
+
+  const preguntas: {
+    label: string;
+    name: FormDataKeys;
+    placeholder: string;
+    descripcion?: string;
+  }[] = [
+    {
+      label: "¿Cuál es el monto del préstamo ($)?",
+      name: "capital",
+      placeholder: "Ej: 10000",
+      descripcion: "Define el monto total que deseas solicitar.",
+    },
+    {
+      label: "¿Cuál es la tasa de interés anual (%)?",
+      name: "tasaInteres",
+      placeholder: "Ej: 5",
+      descripcion: "Indica la tasa de interés que se aplicará al préstamo.",
+    },
+    {
+      label: "¿En cuántos meses deseas pagar el préstamo?",
+      name: "periodo",
+      placeholder: "Ej: 12",
+      descripcion: "Especifica el plazo en meses para pagar el préstamo.",
+    },
+  ];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name as FormDataKeys]: value }));
   };
 
   const calcularResultados = () => {
@@ -82,6 +111,8 @@ const CalculadoraPrestamos: React.FC = () => {
       tabla,
     });
 
+    setMostrarResultados(true);
+
     setTimeout(() => {
       if (resultadoRef.current) {
         resultadoRef.current.scrollIntoView({ behavior: "smooth" });
@@ -89,8 +120,21 @@ const CalculadoraPrestamos: React.FC = () => {
     }, 100);
   };
 
+  const avanzarPaso = () => {
+    if (pasoActual < preguntas.length - 1) {
+      setPasoActual(pasoActual + 1);
+    } else {
+      calcularResultados();
+    }
+  };
+
+  const retrocederPaso = () => {
+    if (pasoActual > 0) {
+      setPasoActual(pasoActual - 1);
+    }
+  };
+
   const toggleTabla = () => {
-    console.log("Cambiando estado de la tabla");
     setMostrarTabla(!mostrarTabla);
   };
 
@@ -102,69 +146,53 @@ const CalculadoraPrestamos: React.FC = () => {
         préstamo y planificar tus pagos.
       </p>
 
-      <form className={styles.form}>
-        <div className={styles.formGroup}>
-          <label htmlFor="capital" className={styles.label}>
-            Capital
-          </label>
-          <input
-            id="capital"
-            name="capital"
-            type="number"
-            value={formData.capital}
-            onChange={handleInputChange}
-            className={styles.input}
-          />
+      {!mostrarResultados ? (
+        <div className={styles.form}>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>
+              {preguntas[pasoActual].label}
+            </label>
+            {preguntas[pasoActual].descripcion && (
+              <p className={styles.inputDescription}>
+                {preguntas[pasoActual].descripcion}
+              </p>
+            )}
+            <input
+              type="number"
+              name={preguntas[pasoActual].name}
+              value={formData[preguntas[pasoActual].name]}
+              onChange={handleInputChange}
+              placeholder={preguntas[pasoActual].placeholder}
+              className={styles.input}
+            />
+          </div>
+          <div className={styles.contButton}>
+            <button
+              onClick={retrocederPaso}
+              disabled={pasoActual === 0}
+              className={`${styles.button} ${styles.secondary}`}
+            >
+              Atrás
+            </button>
+            <button
+              onClick={avanzarPaso}
+              className={`${styles.button} ${styles.primary}`}
+            >
+              {pasoActual === preguntas.length - 1 ? "Calcular" : "Siguiente"}
+            </button>
+          </div>
         </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="tasaInteres" className={styles.label}>
-            Tasa de Interés (%)
-          </label>
-          <input
-            id="tasaInteres"
-            name="tasaInteres"
-            type="number"
-            value={formData.tasaInteres}
-            onChange={handleInputChange}
-            className={styles.input}
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="periodo" className={styles.label}>
-            Período (meses)
-          </label>
-          <input
-            id="periodo"
-            name="periodo"
-            type="number"
-            value={formData.periodo}
-            onChange={handleInputChange}
-            className={styles.input}
-          />
-        </div>
-
-        <button
-          type="button"
-          className={styles.button}
-          onClick={calcularResultados}
-        >
-          Calcular
-        </button>
-      </form>
-
-      {resultado && (
+      ) : (
         <div ref={resultadoRef} className={styles.resultados}>
           <h2 className={styles.enunciado}>Resultados del Préstamo</h2>
-          <p>
-            Cuota mensual: <span>{resultado.cuota} €</span>
+          <p className={styles.resultText}>
+            Cuota mensual: <span>{resultado?.cuota} €</span>
           </p>
-          <p>
-            Total de intereses: <span>{resultado.totalIntereses} €</span>
+          <p className={styles.resultText}>
+            Total de intereses: <span>{resultado?.totalIntereses} €</span>
           </p>
-          <p>
-            Monto total pagado: <span>{resultado.totalPagado} €</span>
+          <p className={styles.resultText}>
+            Monto total pagado: <span>{resultado?.totalPagado} €</span>
           </p>
 
           <button onClick={toggleTabla} className={styles.toggleButton}>
@@ -172,7 +200,7 @@ const CalculadoraPrestamos: React.FC = () => {
               ? "Ocultar Tabla de Amortización"
               : "Mostrar Tabla de Amortización"}
           </button>
-          {mostrarTabla && resultado.tabla && (
+          {mostrarTabla && resultado?.tabla && (
             <div>
               <h3 className={styles.tablaTitle}>Tabla de amortización:</h3>
               <div className={styles.tableWrapper}>
@@ -201,6 +229,22 @@ const CalculadoraPrestamos: React.FC = () => {
               </div>
             </div>
           )}
+          <button
+            onClick={() => {
+              setMostrarResultados(false);
+              setPasoActual(0);
+              setFormData({
+                capital: "",
+                tasaInteres: "",
+                periodo: "",
+              });
+              setResultado(null);
+              setMostrarTabla(false);
+            }}
+            className={`${styles.button} ${styles.secondary}`}
+          >
+            Volver a empezar
+          </button>
         </div>
       )}
     </div>

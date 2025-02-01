@@ -20,43 +20,51 @@ const Home: React.FC = () => {
     {
       image: "/ahorros.jpg",
       title: "Simulador de Ahorro",
-      description: "Ahorra con cabeza y haz que tu dinero crezca solo.",
+      description:
+        "Ahorra con cabeza y haz que tu dinero crezca solo. Calcula cuánto necesitas ahorrar mensualmente para alcanzar tus metas financieras.",
       path: "/Simuladores/CalculadoraAhorros",
     },
     {
       image: "/prestamo.jpg",
       title: "Simulador de Préstamos",
-      description: "¿Cuánto pagarás al mes? Descúbrelo antes de endeudarte.",
+      description:
+        "¿Cuánto pagarás al mes? Descúbrelo antes de endeudarte. Compara diferentes opciones de préstamos y elige la mejor para ti.",
       path: "/Simuladores/CalculadoraPrestamo",
     },
     {
       image: "/inversion.jpg",
       title: "Simulador de Inversiones",
-      description: "Pon tu dinero a trabajar y mira cuánto podrías ganar.",
+      description:
+        "Pon tu dinero a trabajar y mira cuánto podrías ganar. Evalúa el rendimiento de tus inversiones con datos personalizados.",
       path: "/Simuladores/CalculadoraInversiones",
     },
     {
       image: "/inmediata.jpg",
       title: "Simulador de Rentas Inmediatas",
-      description: "¿Cuánto ganarás cada mes? Haz números y decide.",
+      description:
+        "¿Cuánto ganarás cada mes? Haz números y decide. Calcula los pagos periódicos de rentas inmediatas para optimizar tus ingresos.",
       path: "/Simuladores/RentasInmediatas",
     },
     {
       image: "/jubilacion.jpg",
       title: "Simulador de Jubilación",
-      description: "Planifica tu retiro sin sorpresas y con tranquilidad.",
+      description:
+        "Planifica tu retiro sin sorpresas y con tranquilidad. Simula tus ingresos para la jubilación según tu ahorro actual y contribuciones futuras.",
       path: "/Simuladores/SimuladorJubilacion",
     },
-    // ... Añade el resto de los simuladores de manera similar
   ];
 
   return (
     <>
       <Head>
-        <title>Simuladores Financieros</title>
+        <title>Simuladores Financieros - Herramientas para tus Finanzas</title>
         <meta
           name="description"
-          content="Herramientas avanzadas para optimizar tus decisiones financieras. Simuladores de préstamos, ahorros, inversiones y más."
+          content="Herramientas avanzadas para optimizar tus decisiones financieras. Simuladores de préstamos, ahorros, inversiones, jubilación y más. Planifica tu futuro financiero con nosotros."
+        />
+        <meta
+          name="keywords"
+          content="simuladores financieros, calculadora de ahorros, préstamos, inversiones, jubilación, rentas inmediatas, finanzas personales"
         />
       </Head>
 
@@ -78,10 +86,18 @@ const Home: React.FC = () => {
           <section className={styles["description-section"]}>
             <h2 className={styles["section-title"]}>¿Qué ofrecemos?</h2>
             <p className={styles["description"]}>
-              Descubre herramientas avanzadas para mejorar tus finanzas
-              personales. Desde cálculos de préstamos hasta proyecciones de
-              jubilación, ofrecemos soluciones intuitivas para decisiones
-              informadas en cada etapa de tu vida financiera.
+              En Simuladores Financieros, te ofrecemos herramientas avanzadas
+              para mejorar tus finanzas personales. Desde cálculos de préstamos
+              hasta proyecciones de jubilación, nuestras soluciones intuitivas
+              te ayudarán a tomar decisiones informadas en cada etapa de tu vida
+              financiera. Nuestros simuladores están diseñados para ser fáciles
+              de usar y proporcionar resultados precisos.
+            </p>
+            <p className={styles["description"]}>
+              Ya sea que estés planeando tu jubilación, buscando optimizar tus
+              inversiones o calculando préstamos, tenemos la herramienta
+              perfecta para ti. Explora nuestras calculadoras y comienza a
+              planificar tu futuro financiero hoy mismo.
             </p>
           </section>
           <section className={styles["features-section"]}>
@@ -113,10 +129,10 @@ const Home: React.FC = () => {
           >
             Descubre todos los simuladores
           </motion.button>
+
           <section className={styles["benefits-explanation"]}>
             <div className={styles["benefits-text"]}>
               <h3>Potencia tu Futuro Financiero</h3>
-
               <p>
                 En el complejo mundo de las finanzas personales, tomar
                 decisiones informadas es crucial para asegurar un futuro

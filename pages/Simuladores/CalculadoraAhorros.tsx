@@ -1,210 +1,220 @@
-import React, { useState, useEffect } from 'react';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import styles from '../../Estilos/EstiloCalculadoras.module.css';
+import React, { useState } from "react";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import styles from "../../Estilos/EstiloCalculadoras.module.css";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-type ChartData = {
-  labels: string[];
-  datasets: {
-    label: string;
-    data: number[];
-    backgroundColor: string;
-    borderColor: string;
-    borderWidth: number;
-  }[];
-};
+type FormDataKeys = "meta" | "tasaInteres" | "periodo" | "tipoInteres";
 
-const CalculadoraAhorros: React.FC = () => {
-  const [formData, setFormData] = useState({
-    meta: '',
-    tasaInteres: '',
-    periodo: '',
-    tipoInteres: 'anual'
+const CalculadoraAhorrosInteractiva: React.FC = () => {
+  const [formData, setFormData] = useState<Record<FormDataKeys, string>>({
+    meta: "",
+    tasaInteres: "",
+    periodo: "",
+    tipoInteres: "anual",
   });
-  const [showResults, setShowResults] = useState(false);
+
   const [ahorroNecesario, setAhorroNecesario] = useState<number | null>(null);
-  const [graficoData, setGraficoData] = useState<ChartData | null>(null);
+  const [mostrarResultados, setMostrarResultados] = useState(false);
+  const [pasoActual, setPasoActual] = useState(0);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const preguntas: {
+    label: string;
+    name: FormDataKeys;
+    placeholder: string;
+    descripcion?: string;
+  }[] = [
+    {
+      label: "¿Cuál es tu meta de ahorro (€)?",
+      name: "meta",
+      placeholder: "Ej: 10000",
+      descripcion: "Define la cantidad total que deseas ahorrar.",
+    },
+    {
+      label: "¿Cuál es la tasa de interés anual esperada (%)?",
+      name: "tasaInteres",
+      placeholder: "Ej: 5",
+      descripcion: "Indica la tasa de interés que esperas obtener.",
+    },
+    {
+      label: "¿En cuántos años deseas alcanzar tu meta?",
+      name: "periodo",
+      placeholder: "Ej: 5",
+      descripcion: "Especifica el plazo en años para alcanzar tu meta.",
+    },
+    {
+      label: "¿El interés es anual o mensual?",
+      name: "tipoInteres",
+      placeholder: "",
+      descripcion: "Selecciona el tipo de interés aplicado.",
+    },
+  ];
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+    setFormData((prev) => ({ ...prev, [name as FormDataKeys]: value }));
   };
 
-  const calcularCuota = () => {
-    const { meta, tasaInteres, periodo } = formData;
-    if (!meta || !tasaInteres || !periodo) {
-      alert('Por favor, completa todos los campos.');
-    } else {
-      setShowResults(true);
-    }
-  };
-
-  const calcularAhorroNecesario = () => {
+  const calcularAhorro = () => {
     const { meta, tasaInteres, periodo, tipoInteres } = formData;
     const metaFloat = parseFloat(meta);
     const tasaInteresFloat = parseFloat(tasaInteres) / 100;
     const periodoFloat = parseFloat(periodo);
 
-    const tasaInteresMensual = tipoInteres === 'anual' ? Math.pow(1 + tasaInteresFloat, 1 / 12) - 1 : tasaInteresFloat;
+    const tasaInteresMensual =
+      tipoInteres === "anual"
+        ? Math.pow(1 + tasaInteresFloat, 1 / 12) - 1
+        : tasaInteresFloat;
     const ahorroNecesarioCalculado =
       metaFloat /
-      ((Math.pow(1 + tasaInteresMensual, periodoFloat * 12) - 1) / tasaInteresMensual);
+      ((Math.pow(1 + tasaInteresMensual, periodoFloat * 12) - 1) /
+        tasaInteresMensual);
 
-    return isNaN(ahorroNecesarioCalculado) ? 0 : ahorroNecesarioCalculado;
-  };
-
-  useEffect(() => {
-    if (showResults) {
-      const ahorro = calcularAhorroNecesario();
-      setAhorroNecesario(ahorro);
-
-      const labels = Array.from({ length: Math.min(10, parseFloat(formData.periodo)) }, (_, i) => `Año ${i + 1}`);
-      setGraficoData({
-        labels,
-        datasets: [
-          {
-            label: 'Progreso del ahorro acumulado',
-            data: Array.from({ length: Math.min(10, parseFloat(formData.periodo)) }, (_, i) => ahorro * 12 * (i + 1)),
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 2,
-          },
-        ],
-      });
-    }
-  }, [showResults, formData]);
-
-  const volver = () => {
-    setShowResults(false);
-  };
-
-  if (!showResults) {
-    return (
-      <div className={styles.container}>
-        <h1 className={styles.title}>Calculadora de Ahorros</h1>
-        <p className={styles.description}>
-          Planifica tus metas financieras calculando cuánto necesitas ahorrar, el impacto de la tasa de interés y el tiempo requerido para alcanzar tus objetivos.
-        </p>
-
-        <form className={styles.form}>
-          <div className={styles.formGroup}>
-            <label htmlFor="meta" className={styles.label}>Meta de ahorro</label>
-            <input
-              id="meta"
-              name="meta"
-              type="number"
-              value={formData.meta}
-              onChange={handleInputChange}
-              placeholder="Ej: 10000"
-              className={styles.input}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="tasaInteres" className={styles.label}>Tasa de interés (%)</label>
-            <input
-              id="tasaInteres"
-              name="tasaInteres"
-              type="number"
-              value={formData.tasaInteres}
-              onChange={handleInputChange}
-              placeholder="Ej: 5"
-              className={styles.input}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="tipoInteres" className={styles.label}>Tipo de interés</label>
-            <select
-              id="tipoInteres"
-              name="tipoInteres"
-              value={formData.tipoInteres}
-              onChange={handleInputChange}
-              className={styles.input}
-            >
-              <option value="anual">Anual</option>
-              <option value="mensual">Mensual</option>
-            </select>
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="periodo" className={styles.label}>Período (años)</label>
-            <input
-              id="periodo"
-              name="periodo"
-              type="number"
-              value={formData.periodo}
-              onChange={handleInputChange}
-              placeholder="Ej: 5"
-              className={styles.input}
-            />
-          </div>
-
-          <button type="button" className={styles.button} onClick={calcularCuota}>
-            Calcular Ahorro Necesario
-          </button>
-        </form>
-
-        <p className={styles.disclaimer}>
-          Nota: Esta herramienta es para fines informativos y educativos. Los resultados son aproximados y pueden variar según las condiciones reales del mercado financiero.
-        </p>
-      </div>
+    setAhorroNecesario(
+      isNaN(ahorroNecesarioCalculado) ? 0 : ahorroNecesarioCalculado
     );
-  } else {
-    return (
-      <div className={styles.container}>
-        <div className={styles.resultados}>
-          <h2 className={styles.enunciado}>Información introducida</h2>
-          <p className={styles.labelText}>Meta de ahorro: <span className={styles.resultText}>{formData.meta} €</span></p>
-          <p className={styles.labelText}>Tasa de interés anual: <span className={styles.resultText}>{formData.tasaInteres} %</span></p>
-          <p className={styles.labelText}>Período estimado: <span className={styles.resultText}>{formData.periodo} años</span></p>
+    setMostrarResultados(true);
+  };
 
-          <h2 className={styles.enunciado}>Estimación de ahorro</h2>
-          <p className={styles.labelText}>Ahorro mensual necesario: <span className={styles.resultText}>{ahorroNecesario?.toFixed(2)} €</span></p>
-          
-          {graficoData && (
-            <div className={styles.graphContainer}>
-              <Line 
-                data={graficoData} 
-                options={{ 
-                  responsive: true, 
-                  maintainAspectRatio: false,
-                  scales: {
-                    y: {
-                      beginAtZero: true,
-                      title: {
-                        display: true,
-                        text: 'Ahorro Acumulado (€)'
-                      }
-                    },
-                    x: {
-                      title: {
-                        display: true,
-                        text: 'Años'
-                      }
-                    }
-                  }
-                }} 
+  const avanzarPaso = () => {
+    if (pasoActual < preguntas.length - 1) {
+      setPasoActual(pasoActual + 1);
+    } else {
+      calcularAhorro();
+    }
+  };
+
+  const retrocederPaso = () => {
+    if (pasoActual > 0) {
+      setPasoActual(pasoActual - 1);
+    }
+  };
+
+  const data = {
+    labels: Array.from(
+      { length: parseFloat(formData.periodo) },
+      (_, i) => `Año ${i + 1}`
+    ),
+    datasets: [
+      {
+        label: "Progreso del ahorro acumulado",
+        data: Array.from(
+          { length: parseFloat(formData.periodo) },
+          (_, i) => (ahorroNecesario || 0) * 12 * (i + 1)
+        ),
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  return (
+    <div className={styles.container}>
+      <h1 className={styles.title}>Calculadora de Ahorros</h1>
+      <p className={styles.description}>
+        Planifica tus metas financieras calculando cuánto necesitas ahorrar, el
+        impacto de la tasa de interés y el tiempo requerido para alcanzar tus
+        objetivos.
+      </p>
+
+      {!mostrarResultados ? (
+        <div className={styles.form}>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>
+              {preguntas[pasoActual].label}
+            </label>
+            {preguntas[pasoActual].descripcion && (
+              <p className={styles.inputDescription}>
+                {preguntas[pasoActual].descripcion}
+              </p>
+            )}
+            {preguntas[pasoActual].name === "tipoInteres" ? (
+              <select
+                name={preguntas[pasoActual].name}
+                value={formData[preguntas[pasoActual].name]}
+                onChange={handleInputChange}
+                className={styles.input}
+              >
+                <option value="anual">Anual</option>
+                <option value="mensual">Mensual</option>
+              </select>
+            ) : (
+              <input
+                type="number"
+                name={preguntas[pasoActual].name}
+                value={formData[preguntas[pasoActual].name]}
+                onChange={handleInputChange}
+                placeholder={preguntas[pasoActual].placeholder}
+                className={styles.input}
               />
-            </div>
-          )}
-
-          <button onClick={volver} className={styles.toggleButton}>
-            Volver al inicio
+            )}
+          </div>
+          <div className={styles.contButton}>
+            <button
+              onClick={retrocederPaso}
+              disabled={pasoActual === 0}
+              className={`${styles.button} ${styles.secondary}`}
+            >
+              Atrás
+            </button>
+            <button
+              onClick={avanzarPaso}
+              className={`${styles.button} ${styles.primary}`}
+            >
+              {pasoActual === preguntas.length - 1 ? "Calcular" : "Siguiente"}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className={styles.resultados}>
+          <h2 className={styles.enunciado}>Resultado</h2>
+          <p className={styles.resultText}>
+            Ahorro mensual necesario:{" "}
+            <span>{ahorroNecesario?.toFixed(2)} €</span>
+          </p>
+          <div className={styles.graphContainer}>
+            <Line data={data} options={{ responsive: true }} />
+          </div>
+          <button
+            onClick={() => {
+              setMostrarResultados(false);
+              setPasoActual(0);
+              setFormData({
+                meta: "",
+                tasaInteres: "",
+                periodo: "",
+                tipoInteres: "anual",
+              });
+            }}
+            className={`${styles.button} ${styles.secondary}`}
+          >
+            Volver a empezar
           </button>
         </div>
-
-        <p className={styles.disclaimer}>
-          Nota: Este cálculo es solo una aproximación. Los resultados pueden variar según las condiciones financieras reales.
-        </p>
-      </div>
-    );
-  }
+      )}
+    </div>
+  );
 };
 
-export default CalculadoraAhorros;
+export default CalculadoraAhorrosInteractiva;

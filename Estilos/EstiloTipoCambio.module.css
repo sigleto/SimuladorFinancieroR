@@ -1,0 +1,179 @@
+/* EstiloCalculadoras.module.css */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border: 1px solid #e0e0e0;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: 600;
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+
+  /* Propiedad estándar */
+  background-clip: text;
+
+  /* Prefijos de proveedores para compatibilidad */
+  -webkit-background-clip: text; /* Chrome, Safari */
+  -moz-background-clip: text; /* Firefox */
+  -ms-background-clip: text; /* Internet Explorer */
+
+  /* Propiedad para hacer el texto transparente y mostrar el fondo */
+  -webkit-text-fill-color: transparent; /* Chrome, Safari */
+  -moz-text-fill-color: transparent; /* Firefox */
+  -ms-text-fill-color: transparent; /* Internet Explorer */
+}
+
+.description {
+  font-size: 1.1rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup {
+  max-width: 600px; /* Ajusta el ancho máximo del contenedor */
+  margin: 0 auto; /* Centra el contenedor horizontalmente */
+  text-align: center; /* Alinea todo el contenido al centro */
+  display: flex;
+  flex-direction: column; /* Alinea los elementos verticalmente */
+  align-items: center;
+}
+
+.label {
+  font-size: 2.2rem;
+  color: olive;
+  margin-bottom: 0.5rem;
+  text-align: center; /* Centra el texto dentro del contenedor */
+  width: 100%; /* Asegura que ocupe todo el ancho disponible */
+  white-space: normal; /* Permite que el texto se divida en varias líneas si es necesario */
+  word-wrap: break-word;
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input::placeholder {
+  color: #aaa;
+}
+
+.input:focus,
+.select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+
+.formRow {
+  display: flex;
+  gap: 15px;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  flex: 1;
+}
+
+.button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.resultados {
+  margin-top: 25px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.resultText {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.error {
+  margin-top: 10px;
+  color: #dc3545 !important;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 10px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+}
+
+.toggleButton {
+  margin-top: 20px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #6c757d;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
+}
+
+.toggleButton:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+.toggleButton:active {
+  transform: translateY(0);
+}
+
+.disclaimer {
+  font-size: 0.9rem;
+  color: #777;
+  text-align: center;
+  margin-top: 25px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
