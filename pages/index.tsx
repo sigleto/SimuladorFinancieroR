@@ -25,7 +25,7 @@ const Home: React.FC = () => {
       path: "/Simuladores/CalculadoraAhorros",
     },
     {
-      image: "/prestamo.jpg",
+      image: "/prestamon.jpg",
       title: "Simulador de Préstamos",
       description:
         "¿Cuánto pagarás al mes? Descúbrelo antes de endeudarte. Compara diferentes opciones de préstamos y elige la mejor para ti.",
@@ -44,6 +44,13 @@ const Home: React.FC = () => {
       description:
         "¿Cuánto ganarás cada mes? Haz números y decide. Calcula los pagos periódicos de rentas inmediatas para optimizar tus ingresos.",
       path: "/Simuladores/RentasInmediatas",
+    },
+    {
+      image: "/prestamo.jpg",
+      title: "Simuladores Hipotecarios",
+      description:
+        "Calcula cuánto pagarás mensualmente por tu hipoteca y planifica tu presupuesto con precisión.",
+      path: "/Simuladores/SimuladoresHipotecarios",
     },
     {
       image: "/jubilacion.jpg",

@@ -85,6 +85,12 @@ const Herramientas: React.FC = () => {
       icono: "⏳",
       descripcion: `Descubre el tiempo que te queda para jubilarte.`,
     },
+    {
+      nombre: "Simuladores Hipotecarios", // Nueva opción
+      ruta: "/Simuladores/SimuladoresHipotecarios", // Este no redirige a ninguna parte, es solo para mostrar la funcionalidad
+      icono: "🏠",
+      descripcion: `Descubre el tiempo que te queda para jubilarte.`,
+    },
   ];
 
   return (

@@ -35,7 +35,7 @@
 }
 
 .formGroup {
-  max-width: 600px; /* Ajusta el ancho máximo del contenedor */
+  max-width: 700px; /* Ajusta el ancho máximo del contenedor */
   margin: 0 auto; /* Centra el contenedor horizontalmente */
   text-align: center; /* Alinea todo el contenido al centro */
   display: flex;
@@ -88,6 +88,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   margin-left: 40px;
+  margin-bottom: 50px;
 }
 
 .button:hover {
