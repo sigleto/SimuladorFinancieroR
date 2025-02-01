@@ -16,8 +16,7 @@ interface ResultadoReduccionCuota {
 
 interface ResultadoReduccionPlazo {
   nuevoPlazoCuotas: number;
-  reduccionPlazo: number;
-  ultimaCuota: string;
+  cuotaMensual: string;
   ahorroTotal: string;
   tabla: TablaData[];
 }
@@ -96,6 +95,15 @@ const CalculadoraAmortAnticipadaInteractiva: React.FC = () => {
       return false;
     }
 
+    // Validar que la amortización no sea mayor que el capital pendiente
+    if (
+      currentField === "amortizacionAnticipada" &&
+      parseFloat(value) > parseFloat(formData.capitalPendiente)
+    ) {
+      setError("La amortización no puede ser mayor que el capital pendiente.");
+      return false;
+    }
+
     setError("");
     return true;
   };
@@ -123,21 +131,26 @@ const CalculadoraAmortAnticipadaInteractiva: React.FC = () => {
     const tasaInteres = parseFloat(formData.interes) / 100 / 12;
     const amortizacion = parseFloat(formData.amortizacionAnticipada);
 
+    // Cálculo de la cuota original
+    const cuotaOriginal =
+      (capital * tasaInteres * Math.pow(1 + tasaInteres, plazo)) /
+      (Math.pow(1 + tasaInteres, plazo) - 1);
+
     // Cálculo para reducción de cuota
     const nuevoCapital = capital - amortizacion;
     const nuevaCuota =
       (nuevoCapital * tasaInteres * Math.pow(1 + tasaInteres, plazo)) /
       (Math.pow(1 + tasaInteres, plazo) - 1);
-    const cuotaOriginal =
-      (capital * tasaInteres * Math.pow(1 + tasaInteres, plazo)) /
-      (Math.pow(1 + tasaInteres, plazo) - 1);
 
     let saldoReduccionCuota = nuevoCapital;
     const tablaReduccionCuota: TablaData[] = [];
+    let totalInteresesReduccionCuota = 0;
+
     for (let i = 0; i < plazo; i++) {
       const interesMensual = saldoReduccionCuota * tasaInteres;
       const capitalMensual = nuevaCuota - interesMensual;
       saldoReduccionCuota -= capitalMensual;
+      totalInteresesReduccionCuota += interesMensual;
 
       tablaReduccionCuota.push({
         periodo: i + 1,
@@ -149,27 +162,32 @@ const CalculadoraAmortAnticipadaInteractiva: React.FC = () => {
       });
     }
 
+    // Ahorro total en reducción de cuota
+    const ahorroTotalReduccionCuota =
+      cuotaOriginal * plazo - capital - (nuevaCuota * plazo - nuevoCapital);
+
     setResultadoReduccionCuota({
       nuevaCuota: nuevaCuota.toFixed(2),
       reduccionCuota: (cuotaOriginal - nuevaCuota).toFixed(2),
-      ahorroTotal: (cuotaOriginal * plazo - nuevaCuota * plazo).toFixed(2),
+      ahorroTotal: ahorroTotalReduccionCuota.toFixed(2),
       tabla: tablaReduccionCuota,
     });
 
     // Cálculo para reducción de plazo
-    let nuevoPlazoParcial =
-      Math.log(cuotaOriginal / (cuotaOriginal - nuevoCapital * tasaInteres)) /
-      Math.log(1 + tasaInteres);
-    let nuevoPlazoCuotas = Math.floor(nuevoPlazoParcial);
-    let saldoReduccionPlazo = capital;
+    let saldoReduccionPlazo = nuevoCapital;
     const tablaReduccionPlazo: TablaData[] = [];
-    for (let i = 0; i < nuevoPlazoCuotas; i++) {
+    let totalInteresesReduccionPlazo = 0;
+    let nuevoPlazoCuotas = 0;
+
+    while (saldoReduccionPlazo > 0) {
       const interesMensual = saldoReduccionPlazo * tasaInteres;
       const capitalMensual = cuotaOriginal - interesMensual;
       saldoReduccionPlazo -= capitalMensual;
+      totalInteresesReduccionPlazo += interesMensual;
+      nuevoPlazoCuotas++;
 
       tablaReduccionPlazo.push({
-        periodo: i + 1,
+        periodo: nuevoPlazoCuotas,
         cuota: cuotaOriginal.toFixed(2),
         interes: interesMensual.toFixed(2),
         amortizacion: capitalMensual.toFixed(2),
@@ -178,15 +196,16 @@ const CalculadoraAmortAnticipadaInteractiva: React.FC = () => {
       });
     }
 
+    const ahorroTotalReduccionPlazo =
+      cuotaOriginal * plazo -
+      capital -
+      (cuotaOriginal * nuevoPlazoCuotas - nuevoCapital) +
+      cuotaOriginal;
+
     setResultadoReduccionPlazo({
       nuevoPlazoCuotas,
-      reduccionPlazo: plazo - nuevoPlazoCuotas,
-      ultimaCuota: saldoReduccionPlazo.toFixed(2),
-      ahorroTotal: (
-        cuotaOriginal * plazo -
-        cuotaOriginal * nuevoPlazoCuotas -
-        saldoReduccionPlazo
-      ).toFixed(2),
+      cuotaMensual: cuotaOriginal.toFixed(2),
+      ahorroTotal: ahorroTotalReduccionPlazo.toFixed(2),
       tabla: tablaReduccionPlazo,
     });
   };
@@ -239,8 +258,7 @@ const CalculadoraAmortAnticipadaInteractiva: React.FC = () => {
             {resultadoReduccionCuota?.reduccionCuota} €
           </p>
           <p className={styles.resultText}>
-            Ahorro total estimado en intereses:{" "}
-            {resultadoReduccionCuota?.ahorroTotal} €
+            Ahorro total estimado: {resultadoReduccionCuota?.ahorroTotal} €
           </p>
           <button
             onClick={() => setMostrarTablaCuota(!mostrarTablaCuota)}
@@ -283,11 +301,10 @@ const CalculadoraAmortAnticipadaInteractiva: React.FC = () => {
             Nuevo plazo en meses: {resultadoReduccionPlazo?.nuevoPlazoCuotas}
           </p>
           <p className={styles.resultText}>
-            Última cuota estimada: {resultadoReduccionPlazo?.ultimaCuota} €
+            Cuota mensual: {resultadoReduccionPlazo?.cuotaMensual} €
           </p>
           <p className={styles.resultText}>
-            Ahorro total estimado en intereses:{" "}
-            {resultadoReduccionPlazo?.ahorroTotal} €
+            Ahorro total estimado: {resultadoReduccionPlazo?.ahorroTotal} €
           </p>
           <button
             onClick={() => setMostrarTablaPlazo(!mostrarTablaPlazo)}
