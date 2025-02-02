@@ -151,11 +151,6 @@ const CalculadoraJubilacionInteractiva: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Calculadora de Jubilación - Planifica tu Futuro</title>
-        <meta
-          name="description"
-          content="Calcula cuánto dinero tendrás ahorrado para tu jubilación con nuestra herramienta profesional. Planifica tu futuro financiero de manera sencilla y efectiva."
-        />
         <meta
           name="keywords"
           content="calculadora jubilación, ahorro jubilación, planificación financiera, tasa de interés, ahorro futuro"

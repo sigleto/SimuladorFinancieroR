@@ -64,11 +64,6 @@ const Home: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Simuladores Financieros - Herramientas para tus Finanzas</title>
-        <meta
-          name="description"
-          content="Herramientas avanzadas para optimizar tus decisiones financieras. Simuladores de préstamos, ahorros, inversiones, jubilación y más. Planifica tu futuro financiero con nosotros."
-        />
         <meta
           name="keywords"
           content="simuladores financieros, calculadora de ahorros, préstamos, inversiones, jubilación, rentas inmediatas, finanzas personales"
