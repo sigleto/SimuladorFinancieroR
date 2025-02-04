@@ -128,6 +128,19 @@ const ConversorDivisas: React.FC = () => {
         resultado al instante.
       </p>
 
+      <p className={styles.info}>
+        El conversor de divisas te permite realizar conversiones precisas de
+        diferentes monedas del mundo. Solo debes ingresar la cantidad a
+        convertir, elegir la moneda de origen y la de destino, y presionar el
+        botón para obtener el tipo de cambio actualizado al instante.
+      </p>
+
+      <p className={styles.tips}>
+        Consejo: Asegúrate de verificar la tasa de cambio antes de realizar
+        transacciones importantes, ya que estas pueden variar rápidamente debido
+        a la volatilidad del mercado.
+      </p>
+
       <form className={styles.form}>
         <div className={styles.formGroup}>
           <label htmlFor="cantidadIntroducida" className={styles.label}>

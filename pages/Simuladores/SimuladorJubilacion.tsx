@@ -151,6 +151,11 @@ const CalculadoraJubilacionInteractiva: React.FC = () => {
   return (
     <>
       <Head>
+        <title>Calculadora de Jubilación Interactiva</title>
+        <meta
+          name="description"
+          content="Planifica tu jubilación con nuestra calculadora interactiva. Descubre cuánto podrás ahorrar para tu futuro."
+        />
         <meta
           name="keywords"
           content="calculadora jubilación, ahorro jubilación, planificación financiera, tasa de interés, ahorro futuro"
@@ -158,12 +163,52 @@ const CalculadoraJubilacionInteractiva: React.FC = () => {
       </Head>
 
       <div className={styles.container}>
-        <h1 className={styles.title}>Calculadora de Jubilación</h1>
+        <h1 className={styles.title}>Calculadora de Jubilación Interactiva</h1>
         <p className={styles.description}>
           Planifica tu futuro financiero con nuestra calculadora de jubilación.
           Descubre cuánto podrás ahorrar para disfrutar de una jubilación
           tranquila.
         </p>
+
+        <div className={styles.contentSection}>
+          <h2 className={styles.subtitle}>
+            ¿Por qué planificar tu jubilación?
+          </h2>
+          <p className={styles.text}>
+            Planificar tu jubilación es fundamental para asegurar un futuro
+            financiero estable. Con esta calculadora, podrás estimar cuánto
+            dinero necesitarás ahorrar para mantener tu estilo de vida después
+            de jubilarte.
+          </p>
+
+          <h2 className={styles.subtitle}>¿Cómo funciona esta calculadora?</h2>
+          <p className={styles.text}>
+            Ingresa tu edad actual, la edad a la que deseas jubilarte, el monto
+            que has ahorrado hasta ahora y la tasa de interés anual esperada. La
+            calculadora te mostrará cuánto podrás acumular al momento de tu
+            jubilación.
+          </p>
+
+          <h2 className={styles.subtitle}>
+            Consejos para una jubilación exitosa
+          </h2>
+          <ul className={styles.list}>
+            <li>
+              <strong>Comienza temprano:</strong> Cuanto antes empieces a
+              ahorrar, más tiempo tendrá tu dinero para crecer gracias al
+              interés compuesto.
+            </li>
+            <li>
+              <strong>Diversifica tus inversiones:</strong> No pongas todos tus
+              ahorros en un solo lugar. Considera opciones como fondos de
+              inversión, acciones o bienes raíces.
+            </li>
+            <li>
+              <strong>Revisa tus ahorros regularmente:</strong> Asegúrate de que
+              tus ahorros estén alineados con tus metas de jubilación.
+            </li>
+          </ul>
+        </div>
 
         {!mostrarResultados ? (
           <div className={styles.form}>

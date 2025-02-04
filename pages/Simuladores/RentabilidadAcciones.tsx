@@ -62,6 +62,40 @@ const RentabilidadAcciones: React.FC = () => {
         utilizando datos de mercado en tiempo real.
       </p>
 
+      <div className={styles.contentSection}>
+        <h2 className={styles.subtitle}>¿Por qué invertir en acciones?</h2>
+        <p className={styles.text}>
+          Invertir en acciones puede ser una excelente manera de hacer crecer tu
+          patrimonio a largo plazo. Sin embargo, es importante entender los
+          riesgos y beneficios antes de comenzar.
+        </p>
+
+        <h2 className={styles.subtitle}>¿Cómo funciona esta calculadora?</h2>
+        <p className={styles.text}>
+          Ingresa el símbolo de la acción (por ejemplo, AAPL para Apple), la
+          cantidad de acciones que posees y el precio al que las compraste. La
+          calculadora te mostrará la rentabilidad estimada basada en la
+          cotización actual de la acción.
+        </p>
+
+        <h2 className={styles.subtitle}>Consejos para invertir en acciones</h2>
+        <ul className={styles.list}>
+          <li>
+            <strong>Investiga antes de invertir:</strong> Conoce la empresa y su
+            sector antes de comprar sus acciones.
+          </li>
+          <li>
+            <strong>Diversifica tu cartera:</strong> No inviertas todo tu dinero
+            en una sola acción. Distribuye tus inversiones para reducir riesgos.
+          </li>
+          <li>
+            <strong>Mantén una perspectiva a largo plazo:</strong> Las acciones
+            pueden ser volátiles a corto plazo, pero tienden a generar buenos
+            rendimientos a largo plazo.
+          </li>
+        </ul>
+      </div>
+
       <form className={styles.form}>
         <div className={styles.formGroup}>
           <label htmlFor="symbol" className={styles.label}>

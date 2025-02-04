@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import styles from "../../Estilos/EstiloDiasJubilacion.module.css";
 
-// Interfaces con validaciones más estrictas
 interface RetirementAge {
   years: string;
   months: string;
@@ -22,7 +21,6 @@ interface ValidationError {
 const DiasJubilacion: React.FC = () => {
   const router = useRouter();
 
-  // Estados con validaciones
   const [birthDate, setBirthDate] = useState<string>("");
   const [retirementAge, setRetirementAge] = useState<RetirementAge>({
     years: "",
@@ -35,7 +33,6 @@ const DiasJubilacion: React.FC = () => {
   });
   const [error, setError] = useState<ValidationError | null>(null);
 
-  // Función de validación de fecha
   const isValidDate = (dateString: string): boolean => {
     const regex = /^(\d{2})-(\d{2})-(\d{4})$/;
     if (!regex.test(dateString)) return false;
@@ -50,7 +47,6 @@ const DiasJubilacion: React.FC = () => {
     );
   };
 
-  // Cálculo de tiempo restante con validaciones
   const calculateTimeRemaining = () => {
     setError(null);
 
@@ -94,7 +90,6 @@ const DiasJubilacion: React.FC = () => {
     }
 
     const differenceInMillis = retirementDate.getTime() - currentDate.getTime();
-
     const years = Math.floor(
       differenceInMillis / (1000 * 60 * 60 * 24 * 365.25)
     );
@@ -111,13 +106,9 @@ const DiasJubilacion: React.FC = () => {
   };
 
   const handleDateInputChange = (text: string) => {
-    // Eliminar todos los caracteres no numéricos
     const numericText = text.replace(/\D/g, "");
-
-    // Limitar a 8 dígitos (DDMMYYYY)
     const limitedText = numericText.slice(0, 8);
 
-    // Formatear la fecha con guiones
     let formattedText = "";
     if (limitedText.length > 0) {
       formattedText += limitedText.slice(0, 2);
@@ -149,11 +140,52 @@ const DiasJubilacion: React.FC = () => {
       </Head>
 
       <div className={styles.container}>
-        <h2 className={styles.title}>
+        <h1 className={styles.title}>
           Calculadora de Días hasta la Jubilación
-        </h2>
+        </h1>
+        <p className={styles.description}>
+          Esta herramienta te permite conocer cuántos días, meses y años te
+          faltan para jubilarte. Solo necesitas ingresar tu fecha de nacimiento
+          y la edad a la que planeas jubilarte.
+        </p>
 
-        {/* Manejo de errores */}
+        <div className={styles.contentSection}>
+          <h2 className={styles.subtitle}>
+            ¿Por qué planificar tu jubilación?
+          </h2>
+          <p className={styles.text}>
+            Planificar tu jubilación es esencial para garantizar un futuro
+            financiero estable. Saber cuánto tiempo te queda para jubilarte te
+            ayudará a tomar decisiones informadas sobre ahorros, inversiones y
+            gastos.
+          </p>
+
+          <h2 className={styles.subtitle}>¿Cómo funciona esta calculadora?</h2>
+          <p className={styles.text}>
+            Ingresa tu fecha de nacimiento en formato DD-MM-AAAA y la edad a la
+            que deseas jubilarte (en años y meses). La calculadora te mostrará
+            el tiempo exacto que te queda para alcanzar tu jubilación.
+          </p>
+
+          <h2 className={styles.subtitle}>
+            Consejos para una jubilación exitosa
+          </h2>
+          <ul className={styles.list}>
+            <li>
+              <strong>Ahorra temprano:</strong> Comienza a ahorrar para tu
+              jubilación lo antes posible para aprovechar el interés compuesto.
+            </li>
+            <li>
+              <strong>Diversifica tus inversiones:</strong> No dependas de una
+              sola fuente de ingresos para tu jubilación.
+            </li>
+            <li>
+              <strong>Consulta a un asesor financiero:</strong> Un profesional
+              puede ayudarte a crear un plan de jubilación personalizado.
+            </li>
+          </ul>
+        </div>
+
         {error && (
           <div className={styles.errorContainer}>
             <p className={styles.errorText}>{error.message}</p>
@@ -217,7 +249,6 @@ const DiasJubilacion: React.FC = () => {
           </button>
         </div>
 
-        {/* Resultados */}
         {timeRemaining.years !== null && (
           <div className={styles.resultContainer}>
             <label className={styles.resultLabel}>
@@ -228,6 +259,10 @@ const DiasJubilacion: React.FC = () => {
               {(timeRemaining.months ?? 0) > 0 &&
                 `, ${timeRemaining.months} meses`}
               {(timeRemaining.days ?? 0) > 0 && `, ${timeRemaining.days} días`}
+            </p>
+            <p className={styles.resultAdvice}>
+              Considera este tiempo para planificar tu futuro financiero y
+              asegurarte de tener una jubilación cómoda.
             </p>
           </div>
         )}

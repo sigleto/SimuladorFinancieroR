@@ -138,6 +138,44 @@ const CalculadoraAhorrosInteractiva: React.FC = () => {
         objetivos.
       </p>
 
+      {/* Nuevo contenido textual */}
+      <div className={styles.contentSection}>
+        <h2 className={styles.subtitle}>¿Por qué usar esta calculadora?</h2>
+        <p className={styles.text}>
+          Nuestra calculadora de ahorros te ayuda a planificar tus metas
+          financieras de manera efectiva. Ya sea que estés ahorrando para la
+          jubilación, la educación de tus hijos o un viaje soñado, esta
+          herramienta te permite visualizar cuánto necesitas ahorrar cada mes
+          para alcanzar tus objetivos.
+        </p>
+        <h2 className={styles.subtitle}>¿Cómo funciona?</h2>
+        <p className={styles.text}>
+          La calculadora utiliza fórmulas financieras avanzadas para determinar
+          el ahorro mensual necesario en función de tu meta, la tasa de interés
+          y el plazo. Simplemente ingresa los datos solicitados y obtén una
+          proyección detallada de tu progreso de ahorro.
+        </p>
+        <h2 className={styles.subtitle}>Consejos para ahorrar</h2>
+        <ul className={styles.list}>
+          <li>
+            <strong>Establece metas realistas:</strong> Define objetivos claros
+            y alcanzables.
+          </li>
+          <li>
+            <strong>Automatiza tus ahorros:</strong> Configura transferencias
+            automáticas a una cuenta de ahorros.
+          </li>
+          <li>
+            <strong>Reduce gastos innecesarios:</strong> Identifica áreas donde
+            puedas recortar gastos.
+          </li>
+          <li>
+            <strong>Invierte inteligentemente:</strong> Considera opciones de
+            inversión que ofrezcan buenos rendimientos.
+          </li>
+        </ul>
+      </div>
+
       {!mostrarResultados ? (
         <div className={styles.form}>
           <div className={styles.formGroup}>

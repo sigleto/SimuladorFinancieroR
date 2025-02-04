@@ -213,6 +213,54 @@ const CalculadoraAmortAnticipadaInteractiva: React.FC = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Calculadora de Amortización Anticipada</h1>
+      <p className={styles.description}>
+        Descubre cómo una amortización anticipada puede ayudarte a reducir tu
+        cuota mensual o el plazo de tu préstamo. Simplemente ingresa los datos
+        solicitados y obtén una proyección detallada de tus ahorros.
+      </p>
+
+      {/* Nuevo contenido textual */}
+      <div className={styles.contentSection}>
+        <h2 className={styles.subtitle}>¿Qué es la amortización anticipada?</h2>
+        <p className={styles.text}>
+          La amortización anticipada es una estrategia financiera que consiste
+          en pagar una parte o la totalidad de un préstamo antes de la fecha de
+          vencimiento. Esto puede ayudarte a reducir el interés total pagado y a
+          liberarte de deudas más rápidamente.
+        </p>
+        <h2 className={styles.subtitle}>¿Cómo funciona esta calculadora?</h2>
+        <p className={styles.text}>
+          Nuestra calculadora te permite simular dos escenarios:
+        </p>
+        <ul className={styles.list}>
+          <li>
+            <strong>Reducción de cuota:</strong> Mantén el plazo de tu préstamo
+            y reduce tu cuota mensual.
+          </li>
+          <li>
+            <strong>Reducción de plazo:</strong> Mantén tu cuota mensual y
+            acorta el plazo de tu préstamo.
+          </li>
+        </ul>
+        <h2 className={styles.subtitle}>
+          Beneficios de la amortización anticipada
+        </h2>
+        <ul className={styles.list}>
+          <li>
+            <strong>Ahorro en intereses:</strong> Reduce el costo total de tu
+            préstamo.
+          </li>
+          <li>
+            <strong>Libertad financiera:</strong> Termina de pagar tu préstamo
+            antes de lo previsto.
+          </li>
+          <li>
+            <strong>Flexibilidad:</strong> Elige entre reducir tu cuota mensual
+            o el plazo de tu préstamo.
+          </li>
+        </ul>
+      </div>
+
       {!mostrarResultados ? (
         <div className={styles.form}>
           <label className={styles.label}>{preguntas[pasoActual].label}</label>

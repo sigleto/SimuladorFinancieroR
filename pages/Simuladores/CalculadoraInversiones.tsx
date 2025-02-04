@@ -1,6 +1,26 @@
 import React, { useState, useRef } from "react";
-import { useRouter } from "next/router";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 import styles from "../../Estilos/EstiloCalculadoras.module.css";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 type FormDataKeys =
   | "principal"
@@ -28,7 +48,6 @@ const CalculadoraInversionesUnificada: React.FC = () => {
   const [pasoActual, setPasoActual] = useState(0);
 
   const resultRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
 
   const preguntas: {
     label: string;
@@ -111,11 +130,14 @@ const CalculadoraInversionesUnificada: React.FC = () => {
     let totalPagado = principalAmount;
     let rendimientoAcumulado = 0;
 
+    const dataPoints: number[] = [principalAmount];
+
     if (tipoInteres === "anual" && unidadPeriodo === "años") {
       for (let i = 0; i < timePeriod; i++) {
         const interest = totalPagado * ratePercentage;
         totalIntereses += interest;
         totalPagado += annualContributions + interest;
+        dataPoints.push(totalPagado);
       }
     } else {
       const totalMonths =
@@ -125,6 +147,7 @@ const CalculadoraInversionesUnificada: React.FC = () => {
         const interest = totalPagado * monthlyRate;
         totalIntereses += interest;
         totalPagado += annualContributions / 12 + interest;
+        dataPoints.push(totalPagado);
       }
     }
 
@@ -154,15 +177,74 @@ const CalculadoraInversionesUnificada: React.FC = () => {
     }
   };
 
+  const data = {
+    labels: Array.from(
+      { length: parseFloat(formData.time) },
+      (_, i) => `Año ${i + 1}`
+    ),
+    datasets: [
+      {
+        label: "Valor de la Inversión",
+        data: Array.from(
+          { length: parseFloat(formData.time) },
+          (_, i) =>
+            (parseFloat(result || "0") / parseFloat(formData.time)) * (i + 1)
+        ),
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 2,
+      },
+    ],
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Calculadora de Inversiones</h1>
       <p className={styles.description}>
-        Utilice esta calculadora para planificar sus inversiones a largo plazo.
-        Ingrese su capital inicial, tasa de interés, duración de la inversión y
-        contribuciones anuales para obtener una proyección detallada de su
+        Utiliza esta calculadora para planificar tus inversiones a largo plazo.
+        Ingresa tu capital inicial, tasa de interés, duración de la inversión y
+        contribuciones anuales para obtener una proyección detallada de tu
         inversión.
       </p>
+
+      {/* Nuevo contenido textual */}
+      <div className={styles.contentSection}>
+        <h2 className={styles.subtitle}>¿Por qué invertir?</h2>
+        <p className={styles.text}>
+          Invertir es una de las mejores formas de hacer crecer tu dinero a lo
+          largo del tiempo. Ya sea que estés ahorrando para la jubilación, la
+          educación de tus hijos o un objetivo financiero específico, una buena
+          planificación puede marcar la diferencia.
+        </p>
+        <h2 className={styles.subtitle}>¿Cómo funciona esta calculadora?</h2>
+        <p className={styles.text}>
+          Esta calculadora te permite simular el crecimiento de tu inversión en
+          función de tu capital inicial, la tasa de interés, el plazo y las
+          contribuciones adicionales. Obtendrás una proyección detallada del
+          valor futuro de tu inversión y los intereses acumulados.
+        </p>
+        <h2 className={styles.subtitle}>Consejos para invertir</h2>
+        <ul className={styles.list}>
+          <li>
+            <strong>Diversifica tu cartera:</strong> No pongas todos tus huevos
+            en la misma canasta. Invierte en diferentes activos para reducir el
+            riesgo.
+          </li>
+          <li>
+            <strong>Invierte a largo plazo:</strong> El tiempo es tu mejor
+            aliado para aprovechar el interés compuesto.
+          </li>
+          <li>
+            <strong>Revisa tus inversiones:</strong> Monitorea periódicamente el
+            rendimiento de tus inversiones y ajusta tu estrategia si es
+            necesario.
+          </li>
+          <li>
+            <strong>Consulta a un experto:</strong> Si tienes dudas, busca
+            asesoría financiera para tomar decisiones informadas.
+          </li>
+        </ul>
+      </div>
 
       {!mostrarResultados ? (
         <div className={styles.form}>
@@ -232,6 +314,11 @@ const CalculadoraInversionesUnificada: React.FC = () => {
             </span>{" "}
             <span className={styles.resultText}>${totalIntereses}</span>
           </p>
+
+          <div className={styles.graphContainer}>
+            <Line data={data} options={{ responsive: true }} />
+          </div>
+
           <button
             onClick={() => {
               setMostrarResultados(false);
