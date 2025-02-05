@@ -1,62 +1,90 @@
-import { useRouter } from 'next/router'; // Usar useRouter en lugar de useNavigate
-import '../Estilos/EstiloPolitica.module.css'; // Asegúrate de que la ruta del archivo CSS sea correcta
+import { useRouter } from "next/router";
+import styles from "../Estilos/EstiloPolitica.module.css";
 
 const PoliticaPrivacidad = () => {
-  const router = useRouter(); // Usar useRouter para la navegación
+  const router = useRouter();
 
   const salto = () => {
-    router.push('/'); // Cambiar la navegación a la ruta principal ("/")
+    router.push("/");
   };
 
   return (
-    <div className="container">
-      <div>
-        <h1 className="titulo">Política de privacidad de SimuladorFinanciero:</h1>
-        <p className="parrafo">
-          Se ha construido la aplicación Simulador Financiero como una página web gratuita. Este SERVICIO es proporcionado sin costo alguno y está destinado a ser utilizado tal cual. Esta página se utiliza para informar a los visitantes sobre nuestras políticas con respecto a la recopilación, el uso y la divulgación de Información personal si alguien decide utilizar mi Servicio. Si elige usar nuestro Servicio, entonces acepta la recopilación y el uso de información en relación con esta política. La información personal que se recopila se utiliza para proporcionar y mejorar el Servicio. No se usará ni compartirá su información con nadie, excepto como se describe en esta Política de privacidad. Los términos utilizados en esta Política de privacidad tienen los mismos significados que en nuestros Términos y condiciones, a los que se puede acceder en Todo-Trámite a menos que se defina lo contrario en esta Política de privacidad.
-        </p>
-        <p className="parrafo">
-          <strong>Recopilación y uso de información</strong><br /><br />
-          Esta página no recopila ningún tipo de información personal.
-        </p>
-        <p className="parrafo">
-          <strong>Cookies</strong><br /><br />
-          Las cookies son archivos con una pequeña cantidad de datos que se utilizan comúnmente como identificadores únicos anónimos. Estos se envían a su navegador desde los sitios web que visita y se almacenan en la memoria interna de su dispositivo. Este Servicio no utiliza estas 'cookies' de forma explícita. Sin embargo, la aplicación puede usar código y bibliotecas de terceros que usan 'cookies' para recopilar información y mejorar sus servicios. Tiene la opción de aceptar o rechazar estas cookies y saber cuándo se envía una cookie a su dispositivo. Si elige rechazar nuestras cookies, es posible que no pueda utilizar algunas partes de este Servicio.
-        </p>
-        <p className="parrafo">
-          <strong>Proveedores de servicio</strong><br /><br />
-          Podemos emplear empresas e individuos de terceros debido a las siguientes razones:
-          <ul>
-            <li>Para facilitar nuestro Servicio;</li>
-            <li>Para proporcionar el Servicio en nuestro nombre;</li>
-            <li>Para realizar servicios relacionados con el Servicio; o</li>
-            <li>Para ayudarnos a analizar cómo se utiliza nuestro Servicio.</li>
-          </ul>
-        </p>
-        <p className="parrafo">
-          <strong>Seguridad</strong><br /><br />
-          Valoramos tu confianza al proporcionarnos su información personal, por lo que nos esforzamos por utilizar medios comercialmente aceptables para protegerla. Pero recuerda que ningún método de transmisión por Internet, o método de almacenamiento electrónico es 100% seguro y confiable, y no podemos garantizar tu seguridad absoluta.
-        </p>
-        <p className="parrafo">
-          <strong>Enlaces a otros sitios</strong><br /><br />
-          Este Servicio no contiene enlaces a otros sitios.
-        </p>
-        <p className="parrafo">
-          <strong>Privacidad de los niños</strong><br /><br />
-          Estos Servicios no están dirigidos a personas menores de 13 años. No recopilamos a sabiendas información de identificación personal de niños menores de 13 años. En caso de que descubra que un niño menor de 13 años nos ha proporcionado información personal, la eliminaremos inmediatamente de nuestros servidores. Si usted es padre o tutor y sabe que su hijo nos ha proporcionado información personal, comuníquese con nosotros para que podamos tomar las medidas necesarias.
-        </p>
-        <p className="parrafo">
-          <strong>Cambios a esta Política de privacidad</strong><br /><br />
-          Podemos actualizar nuestra Política de privacidad de vez en cuando. Por lo tanto, se le recomienda revisar esta página periódicamente para ver si hay cambios. Le notificaremos cualquier cambio publicando la nueva Política de Privacidad en esta página. Esta política es efectiva a partir del 2023-10-10
-        </p>
-        <p className="parrafo">
-          <strong>Contáctanos</strong><br /><br />
-          Si tienes alguna pregunta o sugerencia sobre nuestra Política de Privacidad, no dudes en ponerte en contacto con nosotros en trianabaresapp@gmail.com.
-        </p>
-      </div>
-      <div className="buttonContainer">
-        <button className="skipButton" onClick={salto}>
-          <span className="buttonText">VOLVER</span>
+    <div className={styles.container}>
+      <h1 className={styles.titulo}>
+        Política de Privacidad de SimuladorFinanciero
+      </h1>
+      <p className={styles.parrafo}>
+        En SimuladorFinanciero, valoramos tu privacidad y nos comprometemos a
+        proteger tus datos personales. Esta política explica cómo recopilamos,
+        usamos y protegemos la información que nos proporcionas al utilizar
+        nuestro servicio.
+      </p>
+
+      <h2 className={styles.subtitulo}>Recopilación y Uso de Información</h2>
+      <p className={styles.parrafo}>
+        Nuestra aplicación no recopila información personal de los usuarios. Sin
+        embargo, podemos utilizar herramientas de análisis de terceros para
+        mejorar la experiencia del usuario, las cuales pueden recopilar datos
+        anónimos.
+      </p>
+
+      <h2 className={styles.subtitulo}>Cookies</h2>
+      <p className={styles.parrafo}>
+        Las cookies son pequeños archivos de datos que se almacenan en tu
+        dispositivo. Nuestro servicio no utiliza cookies directamente, pero es
+        posible que los servicios de terceros que integramos (como Google
+        Analytics) las utilicen. Puedes gestionar o desactivar las cookies desde
+        la configuración de tu navegador.
+      </p>
+
+      <h2 className={styles.subtitulo}>Proveedores de Servicio</h2>
+      <p className={styles.parrafo}>
+        Para mejorar nuestro servicio, podemos trabajar con proveedores externos
+        que nos ayudan a:
+      </p>
+      <ul className={styles.lista}>
+        <li>Facilitar el funcionamiento de la aplicación.</li>
+        <li>Proporcionar servicios en nuestro nombre.</li>
+        <li>Analizar el uso de nuestro servicio.</li>
+      </ul>
+
+      <h2 className={styles.subtitulo}>Seguridad</h2>
+      <p className={styles.parrafo}>
+        Implementamos medidas de seguridad para proteger tu información. Sin
+        embargo, ningún sistema es 100% seguro, por lo que no podemos garantizar
+        la seguridad absoluta de tus datos.
+      </p>
+
+      <h2 className={styles.subtitulo}>Enlaces a Otros Sitios</h2>
+      <p className={styles.parrafo}>
+        Nuestro servicio no contiene enlaces externos. Si en el futuro agregamos
+        enlaces a sitios de terceros, te recomendamos revisar sus políticas de
+        privacidad.
+      </p>
+
+      <h2 className={styles.subtitulo}>Privacidad de los Niños</h2>
+      <p className={styles.parrafo}>
+        Nuestro servicio no está dirigido a menores de 13 años. Si descubrimos
+        que hemos recopilado información de un menor sin consentimiento, la
+        eliminaremos de inmediato.
+      </p>
+
+      <h2 className={styles.subtitulo}>Cambios en la Política de Privacidad</h2>
+      <p className={styles.parrafo}>
+        Podemos actualizar esta política ocasionalmente. Te recomendamos
+        revisarla periódicamente. Los cambios entrarán en vigor inmediatamente
+        después de su publicación en esta página.
+      </p>
+
+      <h2 className={styles.subtitulo}>Contáctanos</h2>
+      <p className={styles.parrafo}>
+        Si tienes preguntas o sugerencias sobre nuestra política de privacidad,
+        contáctanos en <strong>trianabaresapp@gmail.com</strong>.
+      </p>
+
+      <div className={styles.buttonContainer}>
+        <button className={styles.skipButton} onClick={salto}>
+          <span className={styles.buttonText}>VOLVER AL INICIO</span>
         </button>
       </div>
     </div>

@@ -108,10 +108,11 @@ const Home: React.FC = () => {
               {features.map((feature, index) => (
                 <Link key={index} href={feature.path}>
                   <div className={styles["feature-item"]}>
-                    <img
+                    <motion.img
                       src={feature.image}
                       alt={feature.title}
                       className={styles["feature-image"]}
+                      whileHover={{ scale: 1.05 }}
                     />
                     <h3 className={styles["feature-title"]}>{feature.title}</h3>
                     <p className={styles["feature-description"]}>
