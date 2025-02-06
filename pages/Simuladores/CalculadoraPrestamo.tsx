@@ -1,5 +1,26 @@
 import React, { useState, useRef } from "react";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 import styles from "../../Estilos/EstiloCalculadoras.module.css";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 interface TablaData {
   periodo: number;
@@ -138,6 +159,23 @@ const CalculadoraPrestamos: React.FC = () => {
     setMostrarTabla(!mostrarTabla);
   };
 
+  const data = {
+    labels: Array.from(
+      { length: parseInt(formData.periodo) },
+      (_, i) => `Mes ${i + 1}`
+    ),
+    datasets: [
+      {
+        label: "Saldo Pendiente",
+        data:
+          resultado?.tabla.map((fila) => parseFloat(fila.saldoPendiente)) || [],
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 2,
+      },
+    ],
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Calculadora de Préstamos</h1>
@@ -145,6 +183,43 @@ const CalculadoraPrestamos: React.FC = () => {
         Utiliza esta herramienta para calcular las cuotas mensuales de tu
         préstamo y planificar tus pagos.
       </p>
+
+      {/* Nuevo contenido textual */}
+      <div className={styles.contentSection}>
+        <h2 className={styles.subtitle}>¿Por qué usar esta calculadora?</h2>
+        <p className={styles.text}>
+          Nuestra calculadora de préstamos te ayuda a planificar tus finanzas de
+          manera efectiva. Ya sea que estés solicitando un préstamo personal,
+          hipotecario o de auto, esta herramienta te permite visualizar cuánto
+          pagarás cada mes, el total de intereses y el monto total a pagar.
+        </p>
+        <h2 className={styles.subtitle}>¿Cómo funciona?</h2>
+        <p className={styles.text}>
+          La calculadora utiliza fórmulas financieras avanzadas para determinar
+          la cuota mensual en función del monto del préstamo, la tasa de interés
+          y el plazo. Simplemente ingresa los datos solicitados y obtén una
+          proyección detallada de tus pagos.
+        </p>
+        <h2 className={styles.subtitle}>Consejos para gestionar préstamos</h2>
+        <ul className={styles.list}>
+          <li>
+            <strong>Compara tasas de interés:</strong> Asegúrate de obtener la
+            mejor tasa posible.
+          </li>
+          <li>
+            <strong>Planifica tus pagos:</strong> Asegúrate de que las cuotas
+            mensuales se ajusten a tu presupuesto.
+          </li>
+          <li>
+            <strong>Evita el sobreendeudamiento:</strong> Solicita solo el monto
+            que necesitas y que puedes pagar.
+          </li>
+          <li>
+            <strong>Considera pagos adicionales:</strong> Si es posible, realiza
+            pagos adicionales para reducir el interés total.
+          </li>
+        </ul>
+      </div>
 
       {!mostrarResultados ? (
         <div className={styles.form}>
@@ -194,6 +269,10 @@ const CalculadoraPrestamos: React.FC = () => {
           <p className={styles.resultText}>
             Monto total pagado: <span>{resultado?.totalPagado} €</span>
           </p>
+
+          <div className={styles.graphContainer}>
+            <Line data={data} options={{ responsive: true }} />
+          </div>
 
           <button onClick={toggleTabla} className={styles.toggleButton}>
             {mostrarTabla
