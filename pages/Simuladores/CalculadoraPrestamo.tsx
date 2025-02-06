@@ -243,7 +243,7 @@ const CalculadoraPrestamos: React.FC = () => {
             }}
             className={`${styles.button} ${styles.secondary}`}
           >
-            Volver a empezar
+            Volver atrás
           </button>
         </div>
       )}
